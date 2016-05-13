@@ -1,11 +1,15 @@
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
 
+
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
 
-void draw() {
-  Stock stock = null;
+void setup(){
+Stock stock = null;
   try {
     stock = YahooFinance.get("AAPL");
   } 
@@ -18,6 +22,25 @@ void draw() {
   BigDecimal peg = stock.getStats().getPeg();
   BigDecimal dividend = stock.getDividend().getAnnualYieldPercent();
 
-  stock.print();
-  System.out.println(price);
+  Calendar today = Calendar.getInstance();
+  Calendar lastYear = Calendar.getInstance();
+  lastYear.add(Calendar.YEAR, -1);
+ 
+ List<HistoricalQuote> stockHistQuotes = null;
+  
+  try{
+  stockHistQuotes = stock.getHistory(lastYear, today, Interval.DAILY);
+  }
+  catch (IOException e) {
+    e.printStackTrace();
+  }
+  
+  for(HistoricalQuote a: stockHistQuotes){
+   System.out.println(a);
+  }
+}
+
+
+void draw() {
+  
 }
