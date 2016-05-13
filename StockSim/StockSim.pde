@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 void setup(){
+  size(1000,1000);
 Stock stock = null;
   try {
     stock = YahooFinance.get("AAPL");
@@ -35,8 +36,16 @@ Stock stock = null;
     e.printStackTrace();
   }
   
+  int x = 0;
   for(HistoricalQuote a: stockHistQuotes){
-   System.out.println(a);
+   // point((float)x + 20, a.getHigh().floatValue() * 5 - 300);
+   //line((float)x + 20, a.getHigh().floatValue() * 5 - 300, x + 22, a.next().getHigh().floatValue() * 5 - 300);
+   
+   x = x + 2;
+  }
+  
+  for(int i = stockHistQuotes.size() - 2; i > 0; i --){
+  line((float) 602 - i * 2, 600 - (stockHistQuotes.get(i).getHigh().floatValue() * 5 - 300),(float) 600 - i * 2, 600 - (stockHistQuotes.get(i + 1).getHigh().floatValue() * 5 - 300));
   }
 }
 
