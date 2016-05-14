@@ -12,32 +12,51 @@ void setup() {
   background(256, 256, 256);
 
   List<HistoricalQuote> stockHistQuotes = getPastYear("AAPL");
-  for (int i = 0; i < stockHistQuotes.size() - 1; i ++) {
-    line((float) i * 2, 500 - (stockHistQuotes.get(i).getClose().floatValue() * 5 - 300), (float) i * 2 + 2, 500 - (stockHistQuotes.get(i + 1).getClose().floatValue() * 5 - 300));
-  }
-  
-  graphWholeList(stockHistQuotes, 400,400,5,500);
+  //for (int i = 0; i < stockHistQuotes.size() - 1; i ++) {
+  //  line((float) i * 2, 500 - (stockHistQuotes.get(i).getClose().floatValue() * 5 - 300), (float) i * 2 + 2, 500 - (stockHistQuotes.get(i + 1).getClose().floatValue() * 5 - 300));
+  //}
+
+  graphWholeList(stockHistQuotes, 1000, 700, 200, 740);
 }
 
 
 void draw() {
 }
 
-void graphWholeList(List<HistoricalQuote> data, float width, float height, float originX, float originY){
-  line(originX,originY,originX, originY - height);
-  line(originX,originY,originX + width, originY);
+void graphWholeList(List<HistoricalQuote> data, float width, float height, float originX, float originY) {
+  line(originX, originY, originX, originY - height);
+  line(originX, originY, originX + width, originY);
+  float xIncrement = width / data.size();
+  float[] dataMinMax = getMinMax(data);
+  float range = dataMinMax[1] - dataMinMax[0];
+  float yMin = dataMinMax[0] - range * .125;
+  float yMax = dataMinMax[1] + range * .125;
+  float yScale = height / (yMax - yMin);
+  float yAxisIncrement = range / 6;
+  //for(int i = 0; i < 6; i ++){
+  //  text((int) i * yAxisIncrement, , originY - height / 6 * i)
+  //}
   
+  for (int i = 0; i < data.size() - 1; i ++) {
+    System.out.println(data.get(i).getClose().floatValue()  - yMin * yScale);
+
+    line((float) i * xIncrement + originX, 
+      originY - ((data.get(i).getClose().floatValue() - yMin) * yScale), 
+      (float) i * xIncrement + xIncrement + originX, 
+      originY - ((data.get(i + 1).getClose().floatValue() - yMin) * yScale));
+  }
 }
 
-float[] getMinMax(List<HistoricalQuote> data){
+
+float[] getMinMax(List<HistoricalQuote> data) {
   float[] ret = new float[2];
   ret[0] = data.get(0).getClose().floatValue();
   ret[1] = data.get(0).getClose().floatValue();
-  for(int i = 0; i < data.size(); i ++) {
+  for (int i = 0; i < data.size(); i ++) {
     float value = data.get(i).getClose().floatValue();
-    if(value < ret[0]){
+    if (value < ret[0]) {
       ret[0] = value;
-    }else if(value > ret[1]){
+    } else if (value > ret[1]) {
       ret[1] = value;
     }
   }
@@ -76,8 +95,5 @@ List<HistoricalQuote> getPastYear(String ticker) {
     stockHistQuotes.set(stockHistQuotes.size() - i - 1, temp);
   }
 
-  for (int i = 0; i < stockHistQuotes.size() - 1; i ++) {
-    System.out.println(stockHistQuotes.get(i).toString());
-  }
   return stockHistQuotes;
 }
