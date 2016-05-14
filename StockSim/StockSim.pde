@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 
 void setup() {
   size(1400, 800);
-  background(256, 256, 256);
+  background(256,256,256);
 
   List<HistoricalQuote> stockHistQuotes = getPastYear("AAPL");
   graphEntireList(stockHistQuotes, 1000, 700, 200, 740);
@@ -38,12 +38,13 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
 
   // graph
   for (int i = 0; i < data.size() - 1; i ++) {
+    //graph area under line
     stroke(229, 243, 252);  // light blue area under line
     line((float) i * xIncrement + originX + 1, 
-      originY - ((data.get(i).getClose().floatValue() - yMin) * yScale - 3), 
+      originY - ((data.get(i).getClose().floatValue() - yMin) * yScale), 
       (float) i * xIncrement + originX + 1, 
       originY - 1);
-
+    //graph line
     stroke(26, 154, 249);   // blue line
     line((float) i * xIncrement + originX, 
       originY - ((data.get(i).getClose().floatValue() - yMin) * yScale), 
@@ -51,20 +52,19 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
       originY - ((data.get(i + 1).getClose().floatValue() - yMin) * yScale));
   }
 
-
   // y axis title
   fill(0);
   textSize(13);
   text("Close Price ($)", originX - 100, originY - height * .57);
 
   // x axis title
-  text("Date", originX + width/2, originY + 32);
+  text("Date", originX + width/2, originY + 30);
 
   // y axis scale
   for (int i = 0; i < 7; i ++) {
     fill(0);
     textSize(10);
-    text((int)(yMin + i * yAxisIncrement), originX - 22, originY - height / 6 * i + 3);
+    text((int)(yMin + i * yAxisIncrement), originX - 24, originY - height / 6 * i + 3);
   }
 
   // x axis scale.
@@ -73,17 +73,16 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
     Calendar cal = data.get((int)(i * xAxisIncrement)).getDate();
     // put into good format "month 01, year"
     SimpleDateFormat format1 = new SimpleDateFormat("MMM dd, YYYY");
-    text(format1.format(cal.getTime()), originX + width / 4 * i - 27, originY + 15);
+    text(format1.format(cal.getTime()), originX + width / 4 * i - 30, originY + 13);
   }
 
   // y axis scale lines
-  stroke(200, 200, 200);  //light grey line
+  stroke(210, 210, 210);  //light grey line
   for (int i = 1; i < 6; i ++) {
     line(originX + 1, originY - height / 6 * i, originX + width, originY - height / 6 * i);
   }
 
   // x axis scale lines
-  stroke(200, 200, 200);
   for (int i = 1; i < 4; i ++) {
     line(originX + width / 4 * i, originY - 1, originX + width / 4 * i, originY - height);
   }
@@ -111,6 +110,7 @@ List<HistoricalQuote> getPastYear(String ticker) {
     stock = YahooFinance.get(ticker);
   } 
   catch (IOException e) {
+    
     e.printStackTrace();
   }
 
@@ -124,6 +124,7 @@ List<HistoricalQuote> getPastYear(String ticker) {
     stockHistQuotes = stock.getHistory(lastYear, today, Interval.DAILY);
   }
   catch (IOException e) {
+    System.out.println("INVALID TICKER");
     e.printStackTrace();
   }
 
