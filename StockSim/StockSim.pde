@@ -1,4 +1,4 @@
-import yahoofinance.Stock;
+import yahoofinance.Stock; //<>//
 import yahoofinance.YahooFinance;
 
 import java.io.IOException;
@@ -12,20 +12,15 @@ void setup() {
   background(256, 256, 256);
 
   List<HistoricalQuote> stockHistQuotes = getPastYear("AAPL");
-  //for (int i = 0; i < stockHistQuotes.size() - 1; i ++) {
-  //  line((float) i * 2, 500 - (stockHistQuotes.get(i).getClose().floatValue() * 5 - 300), (float) i * 2 + 2, 500 - (stockHistQuotes.get(i + 1).getClose().floatValue() * 5 - 300));
-  //}
-
-  graphWholeList(stockHistQuotes, 1000, 700, 200, 740);
+  graphEntireList(stockHistQuotes, 1000, 700, 200, 740);
 }
 
 
 void draw() {
 }
 
-void graphWholeList(List<HistoricalQuote> data, float width, float height, float originX, float originY) {
-  line(originX, originY, originX, originY - height);
-  line(originX, originY, originX + width, originY);
+void graphEntireList(List<HistoricalQuote> data, float width, float height, float originX, float originY) {
+
   float xIncrement = width / data.size();
   float[] dataMinMax = getMinMax(data);
   float range = dataMinMax[1] - dataMinMax[0];
@@ -33,17 +28,46 @@ void graphWholeList(List<HistoricalQuote> data, float width, float height, float
   float yMax = dataMinMax[1] + range * .125;
   float yScale = height / (yMax - yMin);
   float yAxisIncrement = range / 6;
-  //for(int i = 0; i < 6; i ++){
-  //  text((int) i * yAxisIncrement, , originY - height / 6 * i)
-  //}
-  
-  for (int i = 0; i < data.size() - 1; i ++) {
-    System.out.println(data.get(i).getClose().floatValue()  - yMin * yScale);
 
+  //draw x & y axis
+  line(originX, originY, originX, originY - height);
+  line(originX, originY, originX + width, originY);
+
+  // y axis scale
+  for (int i = 0; i < 7; i ++) {
+    System.out.println(originY - height / 6 * i);
+    fill(0);
+    textSize(9);
+    text((int)(yMin + i * yAxisIncrement), originX - 22, originY - height / 6 * i + 3);
+  }
+
+  // y axis scale lines
+  stroke(211, 211, 211);  //light grey line
+  for (int i = 1; i < 6; i ++) {
+    line(originX, originY - height / 6 * i, originX + width, originY - height / 6 * i);
+  }
+
+  // x axis scale
+  for (int i = 0; i < 4; i ++){
+  
+  
+  }
+
+  // graph
+
+  for (int i = 0; i < data.size() - 1; i ++) {
+    stroke(26, 154, 249);   // blue line
     line((float) i * xIncrement + originX, 
       originY - ((data.get(i).getClose().floatValue() - yMin) * yScale), 
       (float) i * xIncrement + xIncrement + originX, 
       originY - ((data.get(i + 1).getClose().floatValue() - yMin) * yScale));
+
+
+    stroke(210, 234, 252);  // light blue area under line
+    line((float) i * xIncrement + originX + 1, 
+      originY - ((data.get(i).getClose().floatValue() - yMin) * yScale - 3), 
+      (float) i * xIncrement + originX + 1, 
+      originY - 1);
   }
 }
 
@@ -83,10 +107,6 @@ List<HistoricalQuote> getPastYear(String ticker) {
   }
   catch (IOException e) {
     e.printStackTrace();
-  }
-
-  for (int i = 0; i < stockHistQuotes.size() - 1; i ++) {
-    System.out.println(stockHistQuotes.get(i).toString());
   }
 
   for (int i = 0; i < stockHistQuotes.size() / 2; i ++) {
