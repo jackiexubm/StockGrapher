@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 
 void setup() {
   size(1400, 800);
-  background(256,256,256);
+  background(256, 256, 256);
 
   List<HistoricalQuote> stockHistQuotes = getPastYear("AAPL");
   graphEntireList(stockHistQuotes, 1000, 700, 200, 740);
@@ -21,14 +21,13 @@ void draw() {
 }
 
 void graphEntireList(List<HistoricalQuote> data, float width, float height, float originX, float originY) {
-
   float xIncrement = width / data.size();
   float[] dataMinMax = getMinMax(data);
   float range = dataMinMax[1] - dataMinMax[0];
   float yMin = dataMinMax[0] - range * .125;
   float yMax = dataMinMax[1] + range * .125;
   float yScale = height / (yMax - yMin);
-  float yAxisIncrement = range / 6;
+  float yAxisIncrement = (yMax - yMin) / 6;
   float xAxisIncrement = data.size() / 4;
 
   //draw x & y axis
@@ -68,13 +67,18 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
   }
 
   // x axis scale.
-  for (int i = 0; i < 5; i ++) {
+  for (int i = 0; i < 4; i ++) {
     //get date
     Calendar cal = data.get((int)(i * xAxisIncrement)).getDate();
     // put into good format "month 01, year"
     SimpleDateFormat format1 = new SimpleDateFormat("MMM dd, YYYY");
     text(format1.format(cal.getTime()), originX + width / 4 * i - 30, originY + 13);
   }
+
+  Calendar cal = Calendar.getInstance();
+  // put into good format "month 01, year"
+  SimpleDateFormat format1 = new SimpleDateFormat("MMM dd, YYYY");
+  text(format1.format(cal.getTime()), originX + width - 30, originY + 13);
 
   // y axis scale lines
   stroke(210, 210, 210);  //light grey line
@@ -110,7 +114,7 @@ List<HistoricalQuote> getPastYear(String ticker) {
     stock = YahooFinance.get(ticker);
   } 
   catch (IOException e) {
-    
+
     e.printStackTrace();
   }
 
@@ -133,6 +137,8 @@ List<HistoricalQuote> getPastYear(String ticker) {
     stockHistQuotes.set(i, stockHistQuotes.get(stockHistQuotes.size() - i - 1));
     stockHistQuotes.set(stockHistQuotes.size() - i - 1, temp);
   }
+
+  System.out.println(stockHistQuotes.size());
 
   return stockHistQuotes;
 }
