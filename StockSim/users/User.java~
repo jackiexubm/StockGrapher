@@ -7,6 +7,6 @@ public class User{
 	this.password = passwrd;
     }
     public toString() {
-	System.out.println(username+ ',' + password+ '\n');
+	System.out.println(username+ ',' + password);
     }
 }
