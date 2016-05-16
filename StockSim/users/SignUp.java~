@@ -2,10 +2,6 @@ import java.io.*;
 import java.util.*;
 
 public class SignUp{
-    /*
-     * To change this template, choose Tools | Templates
-     * and open the template in the editor.
-     */
     //package commandssvn;
  
 //    public static void main(String[] args) throws IOException {
@@ -13,7 +9,7 @@ public class SignUp{
 //	run();
         
     //   }
-    public Scanner sc = new Scanner(system.in);
+    public Scanner sc = new Scanner(System.in);
 
     public void hasAccount(String[] args){
         System.out.println("Do you have an account? (yes/no)");
@@ -39,13 +35,9 @@ public class SignUp{
         System.out.print("Enter your username:");
         String usr = sc.next();
     }
-    
-
-
-    
 
     //--------------------------------------------------------------------------------------
-    public static void run() {
+    /*    public static void run() {
 		        
 	BufferedReader br = null;
 	String line = "";
@@ -85,10 +77,9 @@ public class SignUp{
 	
         
     }
-      
+          
     private static void fileWrite(String usr) {
-	try
-	    {
+	try {
 		FileWriter writer = new FileWriter("accounts.csv");
 		writer.append(usr+',');
 		writer.append();
@@ -99,13 +90,14 @@ public class SignUp{
 		writer.flush();
 		writer.close();
 	    }
-	
 	catch(IOException e) {
 	    e.printStackTrace();
 	}
 	
     }
 }
+    */
+
 /*
     public String encrypt(String password) {
         String hash = "";
@@ -121,3 +113,4 @@ public class SignUp{
 	return hash;
 	}
 */
+}

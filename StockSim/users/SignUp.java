@@ -9,9 +9,9 @@ public class SignUp{
 //	run();
         
     //   }
-    public Scanner sc = new Scanner(system.in);
+    public Scanner sc = new Scanner(System.in);
 
-    public void hasAccount(String[] args){
+    public void hasAccount(){
         System.out.println("Do you have an account? (yes/no)");
         if (sc.nextLine().equalsIgnoreCase("no")) {
             signUp();
@@ -37,7 +37,7 @@ public class SignUp{
     }
 
     //--------------------------------------------------------------------------------------
-    public static void run() {
+    /*    public static void run() {
 		        
 	BufferedReader br = null;
 	String line = "";
@@ -77,7 +77,7 @@ public class SignUp{
 	
         
     }
-      
+          
     private static void fileWrite(String usr) {
 	try {
 		FileWriter writer = new FileWriter("accounts.csv");
@@ -96,6 +96,8 @@ public class SignUp{
 	
     }
 }
+    */
+
 /*
     public String encrypt(String password) {
         String hash = "";
@@ -111,3 +113,4 @@ public class SignUp{
 	return hash;
 	}
 */
+}

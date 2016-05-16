@@ -6,7 +6,7 @@ public class User{
 	this.username = usrname;
 	this.password = passwrd;
     }
-    public toString() {
-	System.out.println(username+ ',' + password+ '\n');
+    public String toString() {
+	return (username+ ',' + password+ '\n');
     }
 }
