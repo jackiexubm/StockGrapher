@@ -8,6 +8,8 @@ public class Driver{
     //writer.println("The second line");
     public static Scanner sc = new Scanner(System.in);
     public static String[] userArray;
+    public static String fileName = "accounts.csv";
+
     public static void main(String[] args) {
 	hasAccount();
     }    
@@ -30,12 +32,22 @@ public class Driver{
 	String password = sc.next();
 	
 	User a = new User(username, password);
+	try{
+	    
+	    FileWriter fw = new FileWriter(fileName);
+	    //fw.append(a.toString());
+	    BufferedWriter bw = new BufferedWriter(fw);
+	    PrintWriter pw = new PrintWriter(bw); 
+	    pw.println("the text");
+	    pw.println("more text");
+	} catch (IOException e) {
+	    System.out.println( "IOException!!!!");
+	}
     }
-
+    
     public static void signIn() {
-        String fileName = "accounts.csv";
         String line = null;
-
+	
         try {
             FileReader fileReader = new FileReader(fileName); 
 	    BufferedReader bR =  new BufferedReader(fileReader);
@@ -44,7 +56,6 @@ public class Driver{
 	    String usr = sc.next();
 
             while ((line = bR.readLine()) != null) {
-		//line = bR.readLine();
 		userArray = line.split(",");
 		if (userArray[0].equals(usr) ) {
 		    System.out.println("Enter your password: ");
@@ -53,7 +64,7 @@ public class Driver{
 			System.out.println("WELCOME TO THE STOCK SIMULATOR");
 		    } else {
 			System.out.println("Password does NOT match");
-			    }
+		    }
 		} else {
 		    System.out.println("Username does NOT exist");
 			}
@@ -65,9 +76,8 @@ public class Driver{
         }
         catch(IOException ex) {
             System.out.println("Error reading file '" + fileName + "'");                  
-            // Or we could just do this: 
-            // ex.printStackTrace();
         }
     }
-
+    
+    
 }
