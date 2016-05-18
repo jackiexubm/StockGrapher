@@ -8,17 +8,51 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 
+List<Stock> recentQuotes;
+int nextPull;
+
 void setup() {
   size(1400, 800);
   background(256, 256, 256);
-
-  List<HistoricalQuote> stockHistQuotes = getPastYear("AAPL");
-  graphEntireList(stockHistQuotes, 1000, 700, 200, 740);
+  recentQuotes = new ArrayList<Stock>();
+  //List<HistoricalQuote> stockHistQuotes = getPastYear("^IXIC");
+  //graphEntireList(stockHistQuotes, 1000, 700, 200, 740);
 }
 
 
 void draw() {
+  addPastMinute("AAPL");
 }
+
+void addPastMinute(String ticker) {
+  if (millis() > nextPull) {
+    if (recentQuotes.size() == 0 || recentQuotes.size() > 0 && ticker.equals(recentQuotes.get(0).getSymbol() )) {
+      try {
+        Stock stock = YahooFinance.get(ticker);
+        recentQuotes.add(stock);
+      } 
+      catch (IOException e) {
+        e.printStackTrace();
+      }
+    } else {
+      System.out.println(recentQuotes.get(0).getSymbol());
+      recentQuotes.clear();
+      try {
+        Stock stock = YahooFinance.get(ticker);
+        recentQuotes.add(stock);
+      } 
+      catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    nextPull += 1000;
+  }
+  
+  System.out.println(recentQuotes.size());
+  
+}
+
+
 
 void graphEntireList(List<HistoricalQuote> data, float width, float height, float originX, float originY) {
   float xIncrement = width / data.size();
@@ -120,7 +154,7 @@ List<HistoricalQuote> getPastYear(String ticker) {
 
   Calendar today = Calendar.getInstance();
   Calendar lastYear = Calendar.getInstance();
-  lastYear.add(Calendar.YEAR, -1);
+  lastYear.add(Calendar.YEAR, -2);
 
   List<HistoricalQuote> stockHistQuotes = null;
 
@@ -138,7 +172,6 @@ List<HistoricalQuote> getPastYear(String ticker) {
     stockHistQuotes.set(stockHistQuotes.size() - i - 1, temp);
   }
 
-  System.out.println(stockHistQuotes.size());
 
   return stockHistQuotes;
 }
