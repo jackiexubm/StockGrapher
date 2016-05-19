@@ -24,7 +24,7 @@ void draw() {
   background(256, 256, 256);
   livePull("AAPL", 2000);
 
-  graphRange(recentQuotes, 1000, 700, 200, 740, 20);
+  graphRange(recentQuotes, 1000, 700, 200, 740, 30);
 }
 
 void livePull(String ticker, int interval) {
@@ -66,10 +66,34 @@ void graphRange(List<Stock> data, float width, float height, float originX, floa
   float yMin = dataMinMax[0] - range * .125;
   float yMax = dataMinMax[1] + range * .125;
   float yScale = height / (yMax - yMin);
-  //float yAxisIncrement = (yMax - yMin) / 6;
+  float yAxisIncrement = (yMax - yMin) / 6;
   //float xAxisIncrement = data.size() / 4;
-  
-  stroke(0,0,0);
+
+  //draw x & y axis
+  stroke(0);
+  line(originX, originY, originX, originY - height);
+  line(originX, originY, originX + width, originY);
+
+  // y axis scale
+  for (int i = 0; i < 7; i ++) {
+    fill(0);
+    textSize(10);
+    text((float)(yMin + i * yAxisIncrement), originX - 40, originY - height / 6 * i + 3);
+  }
+
+  // y axis scale lines
+  stroke(210, 210, 210);  //light grey line
+  for (int i = 1; i < 6; i ++) {
+    line(originX + 1, originY - height / 6 * i, originX + width, originY - height / 6 * i);
+  }
+
+  // x axis scale lines
+  for (int i = 1; i < 4; i ++) {
+    line(originX + width / 4 * i, originY - 1, originX + width / 4 * i, originY - height);
+  }
+
+  //graph
+  stroke(0, 0, 0);
   if (data.size() > 1) {
     for (int i = 0; i < plots - 2; i++) {
       line(originX + width - i * xIncrement, 
@@ -77,11 +101,18 @@ void graphRange(List<Stock> data, float width, float height, float originX, floa
         originX + width - (i + 1) * xIncrement, 
         originY - ((data.get(data.size() - i - 2).getQuote().getPrice().floatValue() - yMin) * yScale)
         );
-        if(i == data.size() - 2) break;
-        
-        System.out.println(originY - ((data.get(data.size() - i - 1).getQuote().getPrice().floatValue() - yMin) * yScale));
+      if (i == data.size() - 2) break;
+
+      System.out.println(originY - ((data.get(data.size() - i - 1).getQuote().getPrice().floatValue() - yMin) * yScale));
     }
   }
+
+  fill(0);
+  textSize(13);
+  text("Close Price ($)", originX - 100, originY - height * .57);
+
+  // x axis title
+  text("Date", originX + width/2, originY + 30);
 }
 
 void graphEntireListStock(List<Stock> data, float width, float height, float originX, float originY) {
