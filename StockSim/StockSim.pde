@@ -21,10 +21,10 @@ void setup() {
 
 
 void draw() {
-  background(256,256,256);
-  livePull("AAPL",2000);
-  
-  graphEntireListStock(recentQuotes,1000, 700, 200, 740);
+  background(256, 256, 256);
+  livePull("AAPL", 2000);
+
+  graphRange(recentQuotes, 1000, 700, 200, 740, 20);
 }
 
 void livePull(String ticker, int interval) {
@@ -50,9 +50,38 @@ void livePull(String ticker, int interval) {
     }
     nextPull += interval;
   }
-  
+
   System.out.println(recentQuotes.size());
+}
+
+void graphRange(List<Stock> data, float width, float height, float originX, float originY, int plots) {
+  float xIncrement = width / plots;
+  float[] dataMinMax;
+  if (data.size() > plots) {
+    dataMinMax = getMinMaxStock(data.subList(data.size() - plots, data.size()));
+  } else {
+    dataMinMax = getMinMaxStock(data);
+  }
+  float range = dataMinMax[1] - dataMinMax[0];
+  float yMin = dataMinMax[0] - range * .125;
+  float yMax = dataMinMax[1] + range * .125;
+  float yScale = height / (yMax - yMin);
+  //float yAxisIncrement = (yMax - yMin) / 6;
+  //float xAxisIncrement = data.size() / 4;
   
+  stroke(0,0,0);
+  if (data.size() > 1) {
+    for (int i = 0; i < plots - 2; i++) {
+      line(originX + width - i * xIncrement, 
+        originY - ((data.get(data.size() - i - 1).getQuote().getPrice().floatValue() - yMin) * yScale), 
+        originX + width - (i + 1) * xIncrement, 
+        originY - ((data.get(data.size() - i - 2).getQuote().getPrice().floatValue() - yMin) * yScale)
+        );
+        if(i == data.size() - 2) break;
+        
+        System.out.println(originY - ((data.get(data.size() - i - 1).getQuote().getPrice().floatValue() - yMin) * yScale));
+    }
+  }
 }
 
 void graphEntireListStock(List<Stock> data, float width, float height, float originX, float originY) {
