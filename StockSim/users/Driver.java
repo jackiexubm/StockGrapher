@@ -9,6 +9,7 @@ public class Driver{
     public static Scanner sc = new Scanner(System.in);
     public static String[] userArray;
     public static String fileName = "accounts.csv";
+    public static File f = new File(fileName);
 
     public static void main(String[] args) {
 	hasAccount();
@@ -27,19 +28,27 @@ public class Driver{
     public static void signUp() {
 	System.out.print("Enter a username: ");
 	String username = sc.next();
+	System.out.println(username);
 	
 	System.out.print("Enter a password: ");
 	String password = sc.next();
-	
+	System.out.println(password);
+
 	User a = new User(username, password);
-	try{
-	    
-	    FileWriter fw = new FileWriter(fileName);
-	    //fw.append(a.toString());
+	System.out.println(a.toString());
+	
+	try{	    
+	    FileWriter fw = new FileWriter(fileName, true);
+	    fw.append(a.toString());
 	    BufferedWriter bw = new BufferedWriter(fw);
-	    PrintWriter pw = new PrintWriter(bw); 
-	    pw.println("the text");
-	    pw.println("more text");
+	    //PrintWriter pw = new PrintWriter(bw); 
+	    //pw.println(a.toString());
+	    bw.append(a.toString());
+	    //bw.append(username+','+password + "/n");
+	    System.out.println("DONE");
+	    //fw.flush();
+	    //fw.close();
+	    bw.close();
 	} catch (IOException e) {
 	    System.out.println( "IOException!!!!");
 	}
@@ -49,35 +58,46 @@ public class Driver{
         String line = null;
 	
         try {
-            FileReader fileReader = new FileReader(fileName); 
-	    BufferedReader bR =  new BufferedReader(fileReader);
-	    
+            FileReader fR = new FileReader(f); 
+	    BufferedReader bR =  new BufferedReader(fR);
+	    //line = bR.readLine();
+	    //System.out.println(line);
+			
 	    System.out.println("Enter your username: ");
 	    String usr = sc.next();
 
-            while ((line = bR.readLine()) != null) {
-		userArray = line.split(",");
-		if (userArray[0].equals(usr) ) {
-		    System.out.println("Enter your password: ");
-		    String pass = sc.next();	
-		    if (userArray[1].equals(pass) ) { 
-			System.out.println("WELCOME TO THE STOCK SIMULATOR");
-		    } else {
-			System.out.println("Password does NOT match");
+	    //	    if (bR.readLine() == null) {
+	    //System.out.println("NO users exist. SIGN UP!");
+	    //signUp();
+	    //} else { 
+		while ((line = bR.readLine()) != null) {
+		//while (line != null) {
+		    userArray = line.split(",");
+		    if (userArray.length <1) { 
+			System.out.println("NO users exist! SIGN UP!");
+			signUp();
 		    }
-		} else {
-		    System.out.println("Username does NOT exist");
+		    if (userArray[0].equals(usr) ) {
+			System.out.println("Enter your password: ");
+			String pass = sc.next();	
+			if (userArray[1].equals(pass) ) { 
+			    System.out.println("WELCOME TO THE STOCK SIMULATOR");
+			} else {
+			    System.out.println("Password does NOT match");
 			}
-            }   
-            bR.close();         
-        }
-        catch(FileNotFoundException ex) {
+		    } else {
+			System.out.println("Username does NOT exist");
+		    }
+		}   
+	
+	bR.close();         
+	}
+	catch(FileNotFoundException ex) {
             System.out.println("Unable to open file '" + fileName + "'");                
         }
         catch(IOException ex) {
             System.out.println("Error reading file '" + fileName + "'");                  
         }
     }
-    
-    
+   
 }
