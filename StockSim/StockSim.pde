@@ -22,9 +22,9 @@ void setup() {
 
 void draw() {
   background(256, 256, 256);
-  livePull("AAPL", 2000);
+  livePull("AAPL", 1000);
 
-  graphRange(recentQuotes, 1000, 700, 200, 740, 30);
+  graphRange(recentQuotes, 1000, 700, 200, 740,60);
 }
 
 void livePull(String ticker, int interval) {
@@ -67,7 +67,7 @@ void graphRange(List<Stock> data, float width, float height, float originX, floa
   float yMax = dataMinMax[1] + range * .125;
   float yScale = height / (yMax - yMin);
   float yAxisIncrement = (yMax - yMin) / 6;
-  //float xAxisIncrement = data.size() / 4;
+  int xAxisIncrement = plots / 4;
 
   //draw x & y axis
   stroke(0);
@@ -92,10 +92,23 @@ void graphRange(List<Stock> data, float width, float height, float originX, floa
     line(originX + width / 4 * i, originY - 1, originX + width / 4 * i, originY - height);
   }
 
+    // x axis scale.
+  for (int i = 0; i < 4; i ++) {
+   text(plots - i * xAxisIncrement, originX + width / 4 * i - 5, originY + 13);
+  }
+  text("now", originX + width - 15, originY + 13);
+
   //graph
   stroke(0, 0, 0);
   if (data.size() > 1) {
-    for (int i = 0; i < plots - 2; i++) {
+    for (int i = 0; i < plots; i++) {
+      stroke(229, 243, 252);  // light blue area under line
+    line(originX + width - i * xIncrement, 
+      originY - ((data.get(data.size() - i - 1).getQuote().getPrice().floatValue() - yMin) * yScale), 
+      originX + width - i * xIncrement, 
+      originY - 1);
+      
+      stroke(26, 154, 249); // blue line
       line(originX + width - i * xIncrement, 
         originY - ((data.get(data.size() - i - 1).getQuote().getPrice().floatValue() - yMin) * yScale), 
         originX + width - (i + 1) * xIncrement, 
@@ -109,10 +122,10 @@ void graphRange(List<Stock> data, float width, float height, float originX, floa
 
   fill(0);
   textSize(13);
-  text("Close Price ($)", originX - 100, originY - height * .57);
+  text("Price ($)", originX - 100, originY - height * .57);
 
   // x axis title
-  text("Date", originX + width/2, originY + 30);
+  text("Seconds ago (s)", originX + width/2, originY + 30);
 }
 
 void graphEntireListStock(List<Stock> data, float width, float height, float originX, float originY) {
@@ -123,7 +136,7 @@ void graphEntireListStock(List<Stock> data, float width, float height, float ori
   float yMax = dataMinMax[1] + range * .125;
   float yScale = height / (yMax - yMin);
   float yAxisIncrement = (yMax - yMin) / 6;
-  float xAxisIncrement = data.size() / 4;
+  int xAxisIncrement = data.size() / 4;
 
   //draw x & y axis
   stroke(0);
@@ -149,31 +162,23 @@ void graphEntireListStock(List<Stock> data, float width, float height, float ori
   // y axis title
   fill(0);
   textSize(13);
-  text("Close Price ($)", originX - 100, originY - height * .57);
+  text("Price ($)", originX - 100, originY - height * .57);
 
   // x axis title
-  text("Date", originX + width/2, originY + 30);
+  text("Time elapsed (s)", originX + width/2, originY + 30);
 
   // y axis scale
   for (int i = 0; i < 7; i ++) {
     fill(0);
     textSize(10);
-    text((float)(yMin + i * yAxisIncrement), originX - 24, originY - height / 6 * i + 3);
+    text((float)(yMin + i * yAxisIncrement), originX - 39, originY - height / 6 * i + 3);
   }
 
   // x axis scale.
-  //for (int i = 0; i < 4; i ++) {
-  //  //get date
-  //  Calendar cal = data.get((int)(i * xAxisIncrement)).getDate();
-  //  // put into good format "month 01, year"
-  //  SimpleDateFormat format1 = new SimpleDateFormat("MMM dd, YYYY");
-  //  text(format1.format(cal.getTime()), originX + width / 4 * i - 30, originY + 13);
-  //}
-
-  Calendar cal = Calendar.getInstance();
-  // put into good format "month 01, year"
-  SimpleDateFormat format1 = new SimpleDateFormat("MMM dd, YYYY");
-  text(format1.format(cal.getTime()), originX + width - 30, originY + 13);
+  for (int i = 0; i < 4; i ++) {
+   text(data.size() - i * xAxisIncrement, originX + width / 4 * i, originY + 13);
+  }
+  text("now", originX + width - 15, originY + 13);
 
   // y axis scale lines
   stroke(210, 210, 210);  //light grey line
