@@ -24,7 +24,7 @@ void draw() {
   background(256, 256, 256);
   livePull("AAPL", 1000);
 
-  graphRange(recentQuotes, 1000, 700, 200, 740,60);
+  graphRange(recentQuotes, 1000, 700, 200, 740, 60);
 }
 
 void livePull(String ticker, int interval) {
@@ -63,8 +63,15 @@ void graphRange(List<Stock> data, float width, float height, float originX, floa
     dataMinMax = getMinMaxStock(data);
   }
   float range = dataMinMax[1] - dataMinMax[0];
-  float yMin = dataMinMax[0] - range * .125;
-  float yMax = dataMinMax[1] + range * .125;
+  float yMin;
+  float yMax;
+  if (range == 0) {
+    yMin = dataMinMax[0] - 1;
+    yMax = dataMinMax[1] + 1;
+  } else {
+    yMin = dataMinMax[0] - range * .125;
+    yMax = dataMinMax[1] + range * .125;
+  }
   float yScale = height / (yMax - yMin);
   float yAxisIncrement = (yMax - yMin) / 6;
   int xAxisIncrement = plots / 4;
@@ -92,9 +99,9 @@ void graphRange(List<Stock> data, float width, float height, float originX, floa
     line(originX + width / 4 * i, originY - 1, originX + width / 4 * i, originY - height);
   }
 
-    // x axis scale.
+  // x axis scale.
   for (int i = 0; i < 4; i ++) {
-   text(plots - i * xAxisIncrement, originX + width / 4 * i - 5, originY + 13);
+    text(plots - i * xAxisIncrement, originX + width / 4 * i - 5, originY + 13);
   }
   text("now", originX + width - 15, originY + 13);
 
@@ -103,11 +110,11 @@ void graphRange(List<Stock> data, float width, float height, float originX, floa
   if (data.size() > 1) {
     for (int i = 0; i < plots; i++) {
       stroke(229, 243, 252);  // light blue area under line
-    line(originX + width - i * xIncrement, 
-      originY - ((data.get(data.size() - i - 1).getQuote().getPrice().floatValue() - yMin) * yScale), 
-      originX + width - i * xIncrement, 
-      originY - 1);
-      
+      line(originX + width - i * xIncrement, 
+        originY - ((data.get(data.size() - i - 1).getQuote().getPrice().floatValue() - yMin) * yScale), 
+        originX + width - i * xIncrement, 
+        originY - 1);
+
       stroke(26, 154, 249); // blue line
       line(originX + width - i * xIncrement, 
         originY - ((data.get(data.size() - i - 1).getQuote().getPrice().floatValue() - yMin) * yScale), 
@@ -132,8 +139,15 @@ void graphEntireListStock(List<Stock> data, float width, float height, float ori
   float xIncrement = width / data.size();
   float[] dataMinMax = getMinMaxStock(data);
   float range = dataMinMax[1] - dataMinMax[0];
-  float yMin = dataMinMax[0] - range * .125;
-  float yMax = dataMinMax[1] + range * .125;
+  float yMin;
+  float yMax;
+  if (range == 0) {
+    yMin = dataMinMax[0] - 1;
+    yMax = dataMinMax[1] + 1;
+  } else {
+    yMin = dataMinMax[0] - range * .125;
+    yMax = dataMinMax[1] + range * .125;
+  }
   float yScale = height / (yMax - yMin);
   float yAxisIncrement = (yMax - yMin) / 6;
   int xAxisIncrement = data.size() / 4;
@@ -176,7 +190,7 @@ void graphEntireListStock(List<Stock> data, float width, float height, float ori
 
   // x axis scale.
   for (int i = 0; i < 4; i ++) {
-   text(data.size() - i * xAxisIncrement, originX + width / 4 * i, originY + 13);
+    text(data.size() - i * xAxisIncrement, originX + width / 4 * i, originY + 13);
   }
   text("now", originX + width - 15, originY + 13);
 
@@ -197,8 +211,15 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
   float xIncrement = width / data.size();
   float[] dataMinMax = getMinMax(data);
   float range = dataMinMax[1] - dataMinMax[0];
-  float yMin = dataMinMax[0] - range * .125;
-  float yMax = dataMinMax[1] + range * .125;
+  float yMin;
+  float yMax;
+  if (range == 0) {
+    yMin = dataMinMax[0] - 1;
+    yMax = dataMinMax[1] + 1;
+  } else {
+    yMin = dataMinMax[0] - range * .125;
+    yMax = dataMinMax[1] + range * .125;
+  }
   float yScale = height / (yMax - yMin);
   float yAxisIncrement = (yMax - yMin) / 6;
   float xAxisIncrement = data.size() / 4;
