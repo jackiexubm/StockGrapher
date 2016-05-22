@@ -112,7 +112,7 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
 
   // mouse over info
   if (mouseOver) {
-    int elementNumber;
+    int elementNumber = 0;
     if (mouseX > originX && mouseX < originX + width && mouseY < originY && mouseY > originY - height) {
       stroke(0);
       
@@ -123,6 +123,7 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
       
       //horizontal line
       elementNumber = (int) ((mouseXPosition - originX) / xIncrement);
+      if(elementNumber >= data.size() - 1) {elementNumber = data.size() - 2;}
       float elementYPosition = originY - ((data.get(elementNumber + 1).getClose().floatValue() - yMin) * yScale);
       line(originX, elementYPosition, originX + width,elementYPosition);
       
@@ -131,6 +132,39 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
     }
     
     //display element info
+    stroke(0);
+    fill(256,256,256);
+    rect(originX + 5, originY - 82, 115, 77, 5);
+    HistoricalQuote current = data.get(elementNumber);
+    fill(0);
+    // get title. not implemented at the moment because drastically slows down program
+    //try{
+    //text(YahooFinance.get(current.getSymbol()).getName(), originX + 7, originY - 90);
+    //}catch(IOException e){
+    //  e.printStackTrace();
+    //}
+    
+    //write labels
+    text(current.getSymbol(), originX + 50, originY - 70);
+    fill(140, 140, 140);
+    text("Date:", originX + 9, originY - 60);
+    text("Open:", originX + 9, originY - 50);
+    text("Close:", originX + 9, originY - 40);
+    text("High:", originX + 9, originY - 30);
+    text("Low:", originX + 9, originY - 20);
+    text("Volume:", originX + 9, originY - 10);
+    
+    //write info
+    fill(0);
+    //get date into nice format
+    Calendar cal2 = current.getDate();
+    SimpleDateFormat format2 = new SimpleDateFormat("MMM dd, YYYY");
+    text(format2.format(cal2.getTime()), originX + 50, originY - 60);
+    text("" + current.getOpen(), originX + 50, originY - 50);
+    text("" + current.getClose(), originX + 50, originY - 40);
+    text("" + current.getHigh(), originX + 50, originY - 30);
+    text("" + current.getLow(), originX + 50, originY - 20);
+    text("" + current.getVolume(), originX + 50, originY - 10);
   }
 }
 

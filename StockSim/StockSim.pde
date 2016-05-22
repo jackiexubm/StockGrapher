@@ -25,7 +25,7 @@ void draw() {
   frame.setTitle(round(frameRate) + " fps");
   background(256, 256, 256);
   
-  //livePull("AAPL", 1000);
+  //livePull("TSLA", 1000);
   graphEntireList(stockHistQuotes, 1000, 650, 200, 680,true);
   i++;
   //graphRange(recentQuotes, 1000, 700, 200, 740, 180);
