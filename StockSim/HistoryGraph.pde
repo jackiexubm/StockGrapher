@@ -32,7 +32,7 @@ List<HistoricalQuote> getPastYears(String ticker, int years) {
   return stockHistQuotes;
 }
 
-void graphEntireList(List<HistoricalQuote> data, float width, float height, float originX, float originY) {
+void graphEntireList(List<HistoricalQuote> data, float width, float height, float originX, float originY, boolean mouseOver) {
   float xIncrement = width / data.size();
   float[] dataMinMax = getMinMax(data);
   float range = dataMinMax[1] - dataMinMax[0];
@@ -108,6 +108,29 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
   // x axis scale lines
   for (int i = 1; i < 4; i ++) {
     line(originX + width / 4 * i, originY - 1, originX + width / 4 * i, originY - height);
+  }
+
+  // mouse over info
+  if (mouseOver) {
+    int elementNumber;
+    if (mouseX > originX && mouseX < originX + width && mouseY < originY && mouseY > originY - height) {
+      stroke(0);
+      
+      // get mouse X position rounded to the nearest x increment
+      float mouseXPosition = Math.round(mouseX / xIncrement) * xIncrement + .6;
+      //vertical line
+      line(mouseXPosition, originY, mouseXPosition, originY - height);
+      
+      //horizontal line
+      elementNumber = (int) ((mouseXPosition - originX) / xIncrement);
+      float elementYPosition = originY - ((data.get(elementNumber + 1).getClose().floatValue() - yMin) * yScale);
+      line(originX, elementYPosition, originX + width,elementYPosition);
+      
+      //intersectionDot
+      ellipse(mouseXPosition,elementYPosition,4,4);
+    }
+    
+    //display element info
   }
 }
 
