@@ -1,6 +1,8 @@
 import yahoofinance.Stock; //<>//
 import yahoofinance.YahooFinance;
 
+import controlP5.*;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,22 +13,31 @@ import java.text.SimpleDateFormat;
 List<Stock> recentQuotes;
 int nextPull;
 List<HistoricalQuote> stockHistQuotes;
-int i = 0;
+ControlP5 cp5;
+
 
 void setup() {
-  size(1400, 700);
+  size(1200, 600);
   background(256, 256, 256);
   recentQuotes = new ArrayList<Stock>();
   stockHistQuotes = getPastYears("TSLA", 1);
+  
+  cp5 = new ControlP5(this);
+    cp5.addSlider("pastRangeNumber")
+     .setPosition(100,50)
+     .setRange(30,300)
+     .setValue(120)
+
+     ;
+  
+  
 }
 
 
 void draw() {
-  frame.setTitle(round(frameRate) + " fps");
-  background(256, 256, 256);
-  
-  //livePull("TSLA", 1000);
-  graphEntireList(stockHistQuotes, 1000, 650, 200, 680,true);
-  i++;
-  //graphRange(recentQuotes, 1000, 700, 200, 740, 180);
+  surface.setTitle(round(frameRate) + " fps");
+  background(256, 256, 256);  
+  livePull("NUGT", 1000);
+  //graphEntireList(stockHistQuotes, 800, 400, 100, 550,true);
+  graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
 }
