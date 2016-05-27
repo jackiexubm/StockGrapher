@@ -1,30 +1,30 @@
+class User {
+  public String username;
+  public String password;
 
-class User{
-    public String username;
-    public String password;
+  void setup() {
+    this.username= "";
+    this.password= "";
+  }
 
-void setup() {
-   this.username= "";
-   this.password= "";
-}
+  void draw() {
+  }
 
-void draw() {}
+  void setUsername(String usern) {
+    this.username = usern;
+  }
 
-void setUsername(String usern) {
-  this.username = usern;
-}
-
-void setPassword(String passw) {
-  this.password = passw;
+  void setPassword(String passw) {
+    this.password = passw;
   }
 
 
-public User(String usrname, String passwrd) {
-  this.username = usrname;
-  this.password = passwrd;
-    }
-    
-public String toString() {
-  return (username+ ',' + password+ '\n');
-    }
+  public User(String usrname, String passwrd) {
+    this.username = usrname;
+    this.password = passwrd;
+  }
+
+  public String toString() {
+    return (username+ ',' + password+ '\n');
+  }
 }

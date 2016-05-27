@@ -9,7 +9,6 @@ void livePull(String ticker, int interval) {
         e.printStackTrace();
       }
     } else {
-      System.out.println(recentQuotes.get(0).getSymbol());
       recentQuotes.clear();
       try {
         Stock stock = YahooFinance.get(ticker);
@@ -21,8 +20,6 @@ void livePull(String ticker, int interval) {
     }
     nextPull += interval;
   }
-
-  System.out.println(recentQuotes.size());
 }
 
 void graphRange(List<Stock> data, float width, float height, float originX, float originY, int plots) {
