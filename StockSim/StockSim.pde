@@ -1,4 +1,4 @@
-import yahoofinance.Stock; //<>// //<>//
+import yahoofinance.Stock; //<>//
 import yahoofinance.YahooFinance;
 
 import controlP5.*;
@@ -27,29 +27,12 @@ void setup() {
     .setPosition(100, 50)
     .setRange(30, 300)
     .setValue(120)
-    .hide()
     ;
 
-  //cp5.addButton("getPast");
-
-  cp5.addTextfield("historyGraphStock")
-    .setPosition(100, 30)
-    .setSize(40, 20);
-  ;
-
-  cp5.addTextfield("historyGraphYears")
-    .setPosition(143, 30)
-    .setSize(16, 20)
-    .setColorForeground(200)
-    .setDefaultValue(1)
-    ;
-
-  cp5.addButton("graphNewHistory")
-    .setPosition(100, 51)
-    .setLabel("graph")
-    .setSize(60, 17)
-    ;
+  setupGraphNewHistoryButtons(150, 70);
+  
 }
+
 
 void draw() {
   surface.setTitle(round(frameRate) + " fps");
@@ -70,4 +53,37 @@ void graphNewHistory() {
     stockHistQuotes.clear();
     stockHistQuotes = getPastYears(input, 1);
   }
+}
+
+void setupGraphNewHistoryButtons(int x, int y) {
+  
+  cp5.addLabel("historyGraphStockLabel")
+    .setPosition(x - 2,y)
+    .setText("Ticker:")
+    .setColor(0)
+  ;
+  
+  cp5.addLabel("historyGraphYearsLabel")
+    .setPosition(x + 32,y)
+    .setText("Years:")
+    .setColor(0)
+  ;
+  
+  cp5.addTextfield("historyGraphStock")
+    .setPosition(x, y + 10)
+    .setSize(37, 20)
+    .setText("TSLA");
+    ;
+
+  cp5.addTextfield("historyGraphYears")
+    .setPosition(x + 40, y + 10)
+    .setSize(22, 20)
+    .setText("1");
+    ;
+
+  cp5.addButton("graphNewHistory")
+    .setPosition(x, y + 31)
+    .setLabel("graph")
+    .setSize(63, 17)
+    ;
 }

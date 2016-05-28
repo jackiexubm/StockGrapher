@@ -38,8 +38,8 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
   line(originX, originY, originX + width, originY);
   
   if (data.size() == 0) {
-    textSize(40);
-    text("INVALID TICKER", originX + width/2, originY - height/2);
+    textSize(30);
+    text("Invalid ticker or range", originX + width/3, originY - height/2);
     return;
   }
   float xIncrement = width / data.size();
