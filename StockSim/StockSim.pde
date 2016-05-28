@@ -13,7 +13,7 @@ import java.util.Map;
 
 ControlP5 cp5;
 List<Map<String, Stock>> recentPopularStocks;
-String[] popularTickers = {"NDAQ","^DJI","^GSPC","GOOG","IBM","FB","AAPL","AMZN","MSFT","INTC"};
+String[] popularTickers = {"NDAQ","^W5000","^GSPC","IBM","GOOG","FB","AAPL","AMZN","MSFT","INTC"};
 List<Stock> recentQuotes;
 int nextPull;
 int nextPull2;
@@ -27,8 +27,23 @@ void setup() {
   recentQuotes = new ArrayList<Stock>();
   recentPopularStocks = new ArrayList<Map<String, Stock>>();
   stockHistQuotes = getPastYears("TSLA", 1);
+  selectedStock = "NDAQ";
 
   cp5 = new ControlP5(this);
+  
+  cp5.addButtonBar("popularStocks")
+    .setPosition(10,10)
+    .setSize(550,20)
+    .addItems(split("NASDAQ WILSHIRE5000 S&P500 IBM GOOGLE FACEBOOK APPLE AMAZON MICROSOFT INTEL"," "))
+    .onRelease(new CallbackListener(){
+    public void controlEvent(CallbackEvent ev) {
+      ButtonBar bar = (ButtonBar)ev.getController();
+      selectedStock = popularTickers[bar.hover()];
+      System.out.println(selectedStock);
+    }
+  })
+    ;
+  
   
   setupGraphPastRangeButtons(150,70);
   //setupGraphNewHistoryButtons(150, 70);
@@ -40,8 +55,7 @@ void draw() {
   background(256, 256, 256);  
   //graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
   livePullPopular(popularTickers,1000);
-  //graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
-  graphRangePopular(recentPopularStocks, "MSFT" , 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
+  graphRangePopular(recentPopularStocks, selectedStock , 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
   //livePull("NUGT", 1000);
   
   //graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
