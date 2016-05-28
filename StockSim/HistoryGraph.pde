@@ -36,7 +36,7 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
   stroke(0);
   line(originX, originY, originX, originY - height);
   line(originX, originY, originX + width, originY);
-  
+
   if (data.size() == 0) {
     textSize(30);
     text("Invalid ticker or range", originX + width/3, originY - height/2);

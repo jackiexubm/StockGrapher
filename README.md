@@ -37,3 +37,26 @@
 #                encrypt()
 #         - JM - Fixed Driver Bug
 #         - JM - Finished 
+# -May 19 - JX - add axis info onto graphRange
+#		  - JX - complete graphRange function
+#		  - JX - complete graph livePulled Stock list
+#		  - JM - complete signUp
+# -May 20 - JX - fix axis scale, graph lines, area under graph of graphRange
+# -May 22 - JX - complete info chart for mouseover info
+# 		  -	JX - Add datapoint pinpointing with mouse function to history graphing
+#         - JX - Fix order of graph code to ensure no overlap
+#         - JX - fix graphing error where if there is no change, line would not be gra
+# -May 23 - JM - Added Log In to processing. Still has bugs
+#         - JM - Fixed Button. Found new Object error
+# -May 26 - JX - Add slider for graphRange 
+#		  - JX - complete graphNewHistory Button
+# -May 27 - JM - Added exceptions for logIn and Register. Text fields work better
+#         - JM - Fixed text fields and added exceptions
+# -May28  - JX - complete many GUI things
+# 		  - JX - complete pullPopular and graphPopular and button bar that changes which one is being graphed
+#
+#
+#
+#
+#
+#
