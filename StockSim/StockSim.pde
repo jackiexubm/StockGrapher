@@ -29,32 +29,45 @@ void setup() {
     .setValue(120)
     .hide()
     ;
-    
-  //cp5.addButton("getPast");
-  
-  cp5.addTextfield("historyGraphStock")
-    .setPosition(100,30)
-    .setColorBackground(256);
-    ;
-    
-  cp5.addButton("graphNewHistory")
-  .setPosition(100,50)
-  ;
-}
 
+  //cp5.addButton("getPast");
+
+  cp5.addTextfield("historyGraphStock")
+    .setPosition(100, 30)
+    .setSize(40, 20);
+  ;
+
+  cp5.addTextfield("historyGraphYears")
+    .setPosition(143, 30)
+    .setSize(16, 20)
+    .setColorForeground(200)
+    .setDefaultValue(1)
+    ;
+
+  cp5.addButton("graphNewHistory")
+    .setPosition(100, 51)
+    .setLabel("graph")
+    .setSize(60, 17)
+    ;
+}
 
 void draw() {
   surface.setTitle(round(frameRate) + " fps");
   background(256, 256, 256);  
+  graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
   //livePull("NUGT", 1000);
-  
-  if(cp5.getController("graphNewHistory").isMousePressed()){
-    stockHistQuotes.clear();
-    stockHistQuotes = getPastYears(cp5.get(Textfield.class, "historyGraphStock").getText(), 1);
-    System.out.println(cp5.get(Textfield.class, "historyGraphStock").getText());
-  }
-  
-  graphEntireList(stockHistQuotes, 800, 400, 100, 550,true);
-  
   //graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
+}
+
+
+void graphNewHistory() {
+  String input = cp5.get(Textfield.class, "historyGraphStock").getText();
+  String input2 = cp5.get(Textfield.class, "historyGraphYears").getText();
+  if (input.length() > 0 && input2.length() > 0) {
+    stockHistQuotes.clear();
+    stockHistQuotes = getPastYears(input, Integer.parseInt(input2));
+  } else if (input.length() > 0) {
+    stockHistQuotes.clear();
+    stockHistQuotes = getPastYears(input, 1);
+  }
 }

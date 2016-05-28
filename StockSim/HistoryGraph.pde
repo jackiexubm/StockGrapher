@@ -16,23 +16,32 @@ List<HistoricalQuote> getPastYears(String ticker, int years) {
 
   try {
     stockHistQuotes = stock.getHistory(lastYear, today, Interval.DAILY);
+
+    for (int i = 0; i < stockHistQuotes.size() / 2; i ++) {
+      HistoricalQuote temp = stockHistQuotes.get(i);
+      stockHistQuotes.set(i, stockHistQuotes.get(stockHistQuotes.size() - i - 1));
+      stockHistQuotes.set(stockHistQuotes.size() - i - 1, temp);
+    }
   }
   catch (IOException e) {
     System.out.println("INVALID TICKER");
     e.printStackTrace();
+    return new ArrayList<HistoricalQuote>();
   }
-
-  for (int i = 0; i < stockHistQuotes.size() / 2; i ++) {
-    HistoricalQuote temp = stockHistQuotes.get(i);
-    stockHistQuotes.set(i, stockHistQuotes.get(stockHistQuotes.size() - i - 1));
-    stockHistQuotes.set(stockHistQuotes.size() - i - 1, temp);
-  }
-
-
   return stockHistQuotes;
 }
 
 void graphEntireList(List<HistoricalQuote> data, float width, float height, float originX, float originY, boolean mouseOver) {
+  //draw x & y axis
+  stroke(0);
+  line(originX, originY, originX, originY - height);
+  line(originX, originY, originX + width, originY);
+  
+  if (data.size() == 0) {
+    textSize(40);
+    text("INVALID TICKER", originX + width/2, originY - height/2);
+    return;
+  }
   float xIncrement = width / data.size();
   float[] dataMinMax = getMinMax(data);
   float range = dataMinMax[1] - dataMinMax[0];
@@ -48,11 +57,6 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
   float yScale = height / (yMax - yMin);
   float yAxisIncrement = (yMax - yMin) / 6;
   float xAxisIncrement = data.size() / 4;
-
-  //draw x & y axis
-  stroke(0);
-  line(originX, originY, originX, originY - height);
-  line(originX, originY, originX + width, originY);
 
   // graph
   for (int i = 0; i < data.size() - 1; i ++) {
@@ -115,25 +119,27 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
     int elementNumber = 0;
     if (mouseX > originX && mouseX < originX + width && mouseY < originY && mouseY > originY - height) {
       stroke(0);
-      
+
       // get mouse X position rounded to the nearest x increment
       float mouseXPosition = Math.round(mouseX / xIncrement) * xIncrement + .6;
       //vertical line
       line(mouseXPosition, originY, mouseXPosition, originY - height);
-      
+
       //horizontal line
       elementNumber = (int) ((mouseXPosition - originX) / xIncrement);
-      if(elementNumber >= data.size() - 1) {elementNumber = data.size() - 2;}
+      if (elementNumber >= data.size() - 1) {
+        elementNumber = data.size() - 2;
+      }
       float elementYPosition = originY - ((data.get(elementNumber + 1).getClose().floatValue() - yMin) * yScale);
-      line(originX, elementYPosition, originX + width,elementYPosition);
-      
+      line(originX, elementYPosition, originX + width, elementYPosition);
+
       //intersectionDot
-      ellipse(mouseXPosition,elementYPosition,4,4);
+      ellipse(mouseXPosition, elementYPosition, 4, 4);
     }
-    
+
     //display element info
     stroke(0);
-    fill(256,256,256);
+    fill(256, 256, 256);
     rect(originX + 5, originY - 82, 115, 77, 5);
     HistoricalQuote current = data.get(elementNumber);
     fill(0);
@@ -143,7 +149,7 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
     //}catch(IOException e){
     //  e.printStackTrace();
     //}
-    
+
     //write labels
     text(current.getSymbol(), originX + 50, originY - 70);
     fill(140, 140, 140);
@@ -153,7 +159,7 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
     text("High:", originX + 9, originY - 30);
     text("Low:", originX + 9, originY - 20);
     text("Volume:", originX + 9, originY - 10);
-    
+
     //write info
     fill(0);
     //get date into nice format
