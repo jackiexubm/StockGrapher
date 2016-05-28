@@ -9,36 +9,41 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 
+ControlP5 cp5;
+List<Map<String, Stock>> recentPopularStocks;
+String[] popularTickers = {"NDAQ","^DJI","^GSPC","GOOG","IBM","FB","AAPL","AMZN","MSFT","INTC"};
 List<Stock> recentQuotes;
 int nextPull;
+int nextPull2;
 List<HistoricalQuote> stockHistQuotes;
-ControlP5 cp5;
+String selectedStock;
 
 
 void setup() {
   size(1200, 600);
   background(256, 256, 256);
   recentQuotes = new ArrayList<Stock>();
+  recentPopularStocks = new ArrayList<Map<String, Stock>>();
   stockHistQuotes = getPastYears("TSLA", 1);
 
   cp5 = new ControlP5(this);
-  cp5.addSlider("pastRangeNumber")
-    .setPosition(100, 50)
-    .setRange(30, 300)
-    .setValue(120)
-    ;
-
-  setupGraphNewHistoryButtons(150, 70);
   
+  setupGraphPastRangeButtons(150,70);
+  //setupGraphNewHistoryButtons(150, 70);
 }
 
 
 void draw() {
   surface.setTitle(round(frameRate) + " fps");
   background(256, 256, 256);  
-  graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
+  //graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
+  livePullPopular(popularTickers,1000);
+  //graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
+  graphRangePopular(recentPopularStocks, "MSFT" , 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
   //livePull("NUGT", 1000);
+  
   //graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
 }
 
@@ -56,34 +61,59 @@ void graphNewHistory() {
 }
 
 void setupGraphNewHistoryButtons(int x, int y) {
-  
+
   cp5.addLabel("historyGraphStockLabel")
-    .setPosition(x - 2,y)
+    .setPosition(x - 2, y)
     .setText("Ticker:")
     .setColor(0)
-  ;
-  
+    ;
+
   cp5.addLabel("historyGraphYearsLabel")
-    .setPosition(x + 32,y)
+    .setPosition(x + 32, y)
     .setText("Years:")
     .setColor(0)
-  ;
-  
+    ;
+
   cp5.addTextfield("historyGraphStock")
     .setPosition(x, y + 10)
     .setSize(37, 20)
-    .setText("TSLA");
+    .setText("TSLA")
     ;
 
   cp5.addTextfield("historyGraphYears")
     .setPosition(x + 40, y + 10)
     .setSize(22, 20)
-    .setText("1");
+    .setText("1")
     ;
 
   cp5.addButton("graphNewHistory")
     .setPosition(x, y + 31)
     .setLabel("graph")
     .setSize(63, 17)
+    ;
+}
+
+void setupGraphPastRangeButtons(int x, int y){
+    cp5.addSlider("pastRangeNumber")
+    .setPosition(x + 20, y + 10)
+    .setRange(30, 600)
+    .setValue(120)
+    ;
+
+  cp5.addLabel("pastRangeNumberLabel")
+    .setPosition(x + 13, y)
+    .setText("Seconds: (drag to change)")
+    .setColor(0)
+    ;
+
+  cp5.addLabel("sliderLeftNumber")
+    .setPosition(x, y + 10)
+    .setText("30")
+    .setColor(0)
+    ;
+  cp5.addLabel("sliderRightNumber")
+    .setPosition(x + 120, y + 10)
+    .setText("600")
+    .setColor(0)
     ;
 }

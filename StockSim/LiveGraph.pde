@@ -2,8 +2,7 @@ void livePull(String ticker, int interval) {
   if (millis() > nextPull) {
     if (recentQuotes.size() == 0 || recentQuotes.size() > 0 && ticker.equals(recentQuotes.get(0).getSymbol() )) {
       try {
-        Stock stock = YahooFinance.get(ticker);
-        recentQuotes.add(stock);
+        recentQuotes.add(YahooFinance.get(ticker));
       } 
       catch (IOException e) {
         e.printStackTrace();

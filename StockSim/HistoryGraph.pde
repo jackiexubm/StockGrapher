@@ -24,7 +24,7 @@ List<HistoricalQuote> getPastYears(String ticker, int years) {
     }
   }
   catch (IOException e) {
-    System.out.println("INVALID TICKER");
+    System.out.println("Invalid ticker or range");
     e.printStackTrace();
     return new ArrayList<HistoricalQuote>();
   }
