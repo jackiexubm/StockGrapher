@@ -85,9 +85,11 @@ void setupMostPopularBar(int x, int y) {
         cp5.get(Textfield.class, "historyGraphStock").setText(popularTickers[bar.hover()]);
         graphNewHistory();
       } else if (graphMode == 2) {
+        cp5.get(Textfield.class, "liveGraphStock").setText(popularTickers[bar.hover()]);
         selectedStock = popularTickers[bar.hover()];
       } else if (graphMode == 1) {
         graphMode = 2;
+        cp5.get(Textfield.class, "liveGraphStock").setText(popularTickers[bar.hover()]);
         selectedStock = popularTickers[bar.hover()];
       }
     }
@@ -140,6 +142,7 @@ void graphNewHistory() {
 
 void graphNewLive(){
   String input = cp5.get(Textfield.class, "liveGraphStock").getText();
+  if(input.length() > 0){
   if(isPopular(input)){
     graphMode = 2;
     selectedStock = input;
@@ -148,6 +151,7 @@ void graphNewLive(){
     livePullStock = input;
   }else{
     livePullStock = input;
+  }
   }
 }
 

@@ -32,7 +32,11 @@ void setup() {
   stockHistQuotes = getPastYears("TSLA", 1);
   livePullStock = "NUGT";
   selectedStock = "NDAQ";
-  cp5 = new ControlP5(this);
+  cp5 = new ControlP5(this)
+    .setColorBackground(0xFF000000)
+    .setColorForeground(0xFFDDDDDD )
+    .setColorActive( 0xFFAAAAAA)
+  ;
   graphMode = 1;
   setupMostPopularBar(10,40);
   setupGraphPastRangeButtons(10, 70);
