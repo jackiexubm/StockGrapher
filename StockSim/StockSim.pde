@@ -18,8 +18,10 @@ List<Stock> recentQuotes;
 int nextPull;
 int nextPull2;
 List<HistoricalQuote> stockHistQuotes;
+String livePullStock;
 String selectedStock;
-int graphMode;
+int graphMode; // 0 - History, 1 - nonPopular Live, 2 - popularLive
+
 
 
 void setup() {
@@ -28,22 +30,28 @@ void setup() {
   recentQuotes = new ArrayList<Stock>();
   recentPopularStocks = new ArrayList<Map<String, Stock>>();
   stockHistQuotes = getPastYears("TSLA", 1);
+  livePullStock = "NUGT";
   selectedStock = "NDAQ";
   cp5 = new ControlP5(this);
+  graphMode = 1;
   setupMostPopularBar(10,40);
-  //setupGraphPastRangeButtons(150, 70);
-  setupGraphNewHistoryButtons(150, 70);
+  setupGraphPastRangeButtons(10, 70);
+  //setupGraphNewHistoryButtons(150, 70);
 }
 
 
 void draw() {
   surface.setTitle(round(frameRate) + " fps");
   background(256, 256, 256);  
-  graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
   livePullPopular(popularTickers, 1000);  // should always be on
   
+  
+  //graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
+  
+  
   //graphRangePopular(recentPopularStocks, selectedStock, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
-  //livePull("NUGT", 1000);
-
-  //graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
+  livePull(livePullStock, 1000);
+  
+  
+  graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
 }
