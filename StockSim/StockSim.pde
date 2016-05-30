@@ -19,6 +19,7 @@ int nextPull;
 int nextPull2;
 List<HistoricalQuote> stockHistQuotes;
 String selectedStock;
+int graphMode;
 
 
 void setup() {
@@ -28,9 +29,8 @@ void setup() {
   recentPopularStocks = new ArrayList<Map<String, Stock>>();
   stockHistQuotes = getPastYears("TSLA", 1);
   selectedStock = "NDAQ";
-
   cp5 = new ControlP5(this);
-  setupMostPopularBar(10,10);
+  setupMostPopularBar(10,40);
   //setupGraphPastRangeButtons(150, 70);
   setupGraphNewHistoryButtons(150, 70);
 }
@@ -40,7 +40,8 @@ void draw() {
   surface.setTitle(round(frameRate) + " fps");
   background(256, 256, 256);  
   graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
-  //livePullPopular(popularTickers, 1000);
+  livePullPopular(popularTickers, 1000);  // should always be on
+  
   //graphRangePopular(recentPopularStocks, selectedStock, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
   //livePull("NUGT", 1000);
 

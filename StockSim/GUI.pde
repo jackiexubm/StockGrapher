@@ -1,15 +1,3 @@
-void graphNewHistory() {
-  String input = cp5.get(Textfield.class, "historyGraphStock").getText();
-  String input2 = cp5.get(Textfield.class, "historyGraphYears").getText();
-  if (input.length() > 0 && input2.length() > 0) {
-    stockHistQuotes.clear();
-    stockHistQuotes = getPastYears(input, Integer.parseInt(input2));
-  } else if (input.length() > 0) {
-    stockHistQuotes.clear();
-    stockHistQuotes = getPastYears(input, 1);
-  }
-}
-
 void setupGraphNewHistoryButtons(int x, int y) {
 
   cp5.addLabel("historyGraphStockLabel")
@@ -77,7 +65,10 @@ void setupMostPopularBar(int x, int y) {
     public void controlEvent(CallbackEvent ev) {
       ButtonBar bar = (ButtonBar)ev.getController();
       selectedStock = popularTickers[bar.hover()];
-      System.out.println(selectedStock);
+      if(graphMode == 0){
+        cp5.get(Textfield.class, "historyGraphStock").setText(popularTickers[bar.hover()]);
+        graphNewHistory();
+      }
     }
   }
   )
@@ -112,4 +103,16 @@ void showGraphPastRangeButtons() {
   cp5.getController("pastRangeNumberLabel").show();
   cp5.getController("sliderLeftNumber").show();
   cp5.getController("sliderRightNumber").show();
+}
+
+void graphNewHistory() {
+  String input = cp5.get(Textfield.class, "historyGraphStock").getText();
+  String input2 = cp5.get(Textfield.class, "historyGraphYears").getText();
+  if (input.length() > 0 && input2.length() > 0) {
+    stockHistQuotes.clear();
+    stockHistQuotes = getPastYears(input, Integer.parseInt(input2));
+  } else if (input.length() > 0) {
+    stockHistQuotes.clear();
+    stockHistQuotes = getPastYears(input, 1);
+  }
 }
