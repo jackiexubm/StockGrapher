@@ -68,8 +68,8 @@ void setupGraphPastRangeButtons(int x, int y) {
     ;
 }
 
-void setupMostPopularBar(int x,int y){
-    cp5.addButtonBar("popularStocks")
+void setupMostPopularBar(int x, int y) {
+  cp5.addButtonBar("popularStocks")
     .setPosition(x, y)
     .setSize(550, 20)
     .addItems(split("NASDAQ WILSHIRE5000 S&P500 IBM GOOGLE FACEBOOK APPLE AMAZON MICROSOFT INTEL", " "))
@@ -82,4 +82,34 @@ void setupMostPopularBar(int x,int y){
   }
   )
   ;
+}
+
+void hideGraphNewHistoryButtons() {
+  cp5.getController("historyGraphStockLabel").hide();
+  cp5.getController("historyGraphYearsLabel").hide();
+  cp5.getController("historyGraphStock").hide();
+  cp5.getController("historyGraphYears").hide();
+  cp5.getController("graphNewHistory").hide();
+}
+
+void showGraphNewHistoryButtons() {
+  cp5.getController("historyGraphStockLabel").show();
+  cp5.getController("historyGraphYearsLabel").show();
+  cp5.getController("historyGraphStock").show();
+  cp5.getController("historyGraphYears").show();
+  cp5.getController("graphNewHistory").show();
+}
+
+void hideGraphPastRangeButtons() {
+  cp5.getController("pastRangeNumber").hide();
+  cp5.getController("pastRangeNumberLabel").hide();
+  cp5.getController("sliderLeftNumber").hide();
+  cp5.getController("sliderRightNumber").hide();
+}
+
+void showGraphPastRangeButtons() {
+  cp5.getController("pastRangeNumber").show();
+  cp5.getController("pastRangeNumberLabel").show();
+  cp5.getController("sliderLeftNumber").show();
+  cp5.getController("sliderRightNumber").show();
 }

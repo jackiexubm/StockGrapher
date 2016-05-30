@@ -31,17 +31,17 @@ void setup() {
 
   cp5 = new ControlP5(this);
   setupMostPopularBar(10,10);
-  setupGraphPastRangeButtons(150, 70);
-  //setupGraphNewHistoryButtons(150, 70);
+  //setupGraphPastRangeButtons(150, 70);
+  setupGraphNewHistoryButtons(150, 70);
 }
 
 
 void draw() {
   surface.setTitle(round(frameRate) + " fps");
   background(256, 256, 256);  
-  //graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
-  livePullPopular(popularTickers, 1000);
-  graphRangePopular(recentPopularStocks, selectedStock, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
+  graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
+  //livePullPopular(popularTickers, 1000);
+  //graphRangePopular(recentPopularStocks, selectedStock, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
   //livePull("NUGT", 1000);
 
   //graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
