@@ -44,14 +44,20 @@ void draw() {
   surface.setTitle(round(frameRate) + " fps");
   background(256, 256, 256);  
   livePullPopular(popularTickers, 1000);  // should always be on
+  livePull(livePullStock, 1000);
+  if(graphMode == 0){
+    graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
+  }else if(graphMode == 1){
+  graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
+  }else if(graphMode == 2){
+  graphRangePopular(recentPopularStocks, selectedStock, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
+  }
+  
+  
+  
   
   
   //graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
-  
-  
   //graphRangePopular(recentPopularStocks, selectedStock, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
-  livePull(livePullStock, 1000);
-  
-  
-  graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
+
 }

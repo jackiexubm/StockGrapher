@@ -140,5 +140,20 @@ void graphNewHistory() {
 
 void graphNewLive(){
   String input = cp5.get(Textfield.class, "liveGraphStock").getText();
-  livePullStock = input;
+  if(isPopular(input)){
+    graphMode = 2;
+    selectedStock = input;
+  }else if(graphMode == 2){
+    graphMode = 1;
+    livePullStock = input;
+  }else{
+    livePullStock = input;
+  }
+}
+
+private boolean isPopular(String tick){
+  for(int i = 0; i < popularTickers.length; i ++){
+   if(tick.equalsIgnoreCase(popularTickers[i])) return true;
+  }
+  return false;
 }
