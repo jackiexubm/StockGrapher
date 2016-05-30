@@ -33,14 +33,15 @@ void setup() {
   livePullStock = "NUGT";
   selectedStock = "NDAQ";
   cp5 = new ControlP5(this)
-    .setColorBackground(0xFF000000)
+    .setColorBackground(0xFF000000)   // colors are 0xFF + hex code
     .setColorForeground(0xFFDDDDDD )
     .setColorActive( 0xFFAAAAAA)
   ;
-  graphMode = 1;
+  graphMode = 0;
   setupMostPopularBar(10,40);
   setupGraphPastRangeButtons(10, 70);
-  //setupGraphNewHistoryButtons(150, 70);
+  setupGraphNewHistoryButtons(10, 70);
+  hideGraphPastRangeButtons();
 }
 
 

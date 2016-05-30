@@ -36,6 +36,9 @@ void setupGraphPastRangeButtons(int x, int y) {
     .setPosition(x + 20, y + 10)
     .setRange(30, 600)
     .setValue(120)
+    .setColorBackground(0xFFAAAAAA)
+    .setColorForeground(0xFF000000 )
+    .setColorActive( 0xFFCCCCCC)
     ;
 
   cp5.addLabel("pastRangeNumberLabel")
@@ -119,6 +122,9 @@ void hideGraphPastRangeButtons() {
   cp5.getController("pastRangeNumberLabel").hide();
   cp5.getController("sliderLeftNumber").hide();
   cp5.getController("sliderRightNumber").hide();
+  cp5.getController("liveGraphStock").hide();
+  cp5.getController("graphNewLive").hide();
+  cp5.getController("liveGraphTickerLabel").hide();
 }
 
 void showGraphPastRangeButtons() {
@@ -126,6 +132,9 @@ void showGraphPastRangeButtons() {
   cp5.getController("pastRangeNumberLabel").show();
   cp5.getController("sliderLeftNumber").show();
   cp5.getController("sliderRightNumber").show();
+  cp5.getController("liveGraphStock").show();
+  cp5.getController("graphNewLive").show();
+  cp5.getController("liveGraphTickerLabel").show();
 }
 
 void graphNewHistory() {
