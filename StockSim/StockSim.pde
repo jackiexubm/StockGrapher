@@ -42,8 +42,8 @@ void setup() {
   setupGraphPastRangeButtons(10, 70);
   setupGraphNewHistoryButtons(10, 70);
   hideGraphPastRangeButtons();
+  setupGraphModeButtons();
 }
-
 
 void draw() {
   surface.setTitle(round(frameRate) + " fps");
@@ -51,7 +51,7 @@ void draw() {
   livePullPopular(popularTickers, 1000);  // should always be on
   livePull(livePullStock, 1000);
   if(graphMode == 0){
-    graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
+    graphEntireList(stockHistQuotes, 800, 400, 100, 550, cp5.get(Toggle.class, "historyMouseTracking").getBooleanValue());
   }else if(graphMode == 1){
   graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
   }else if(graphMode == 2){

@@ -76,6 +76,22 @@ void setupGraphPastRangeButtons(int x, int y) {
     ;
 }
 
+void setupGraphModeButtons(){
+  cp5.addToggle("historyMouseTracking")
+  .setPosition(110,10)
+  .setSize(10,10)
+  .setColorBackground(0xFFDDDDDD)
+  .setValue(true)
+  ;
+  
+  cp5.addLabel("mouseTrackingToggle")
+  .setPosition(5,10)
+  .setText("Toggle Mouse Tracking:")
+  .setColor(0)
+  ;
+  
+}
+
 void setupMostPopularBar(int x, int y) {
   cp5.addButtonBar("popularStocks")
     .setPosition(x, y)
