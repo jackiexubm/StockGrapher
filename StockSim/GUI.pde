@@ -15,7 +15,7 @@ void setupGraphNewHistoryButtons(int x, int y) {
   cp5.addTextfield("historyGraphStock")
     .setPosition(x, y + 10)
     .setSize(37, 20)
-    .setText("TSLA")
+    .setText("NDAQ")
     ;
 
   cp5.addTextfield("historyGraphYears")
@@ -29,6 +29,19 @@ void setupGraphNewHistoryButtons(int x, int y) {
     .setLabel("graph")
     .setSize(63, 17)
     ;
+
+  cp5.addToggle("historyMouseTracking")
+    .setPosition(x + 180, y + 20)
+    .setSize(10, 10)
+    .setColorBackground(0xFFDDDDDD)
+    .setValue(true)
+    ;
+
+  cp5.addLabel("mouseTrackingToggle")
+    .setPosition(x + 75, y + 20)
+    .setText("Toggle Mouse Tracking:")
+    .setColor(0)
+    ;
 }
 
 void setupGraphPastRangeButtons(int x, int y) {
@@ -37,8 +50,8 @@ void setupGraphPastRangeButtons(int x, int y) {
     .setRange(30, 600)
     .setValue(120)
     .setColorBackground(0xFFAAAAAA)
-    .setColorForeground(0xFF000000 )
-    .setColorActive( 0xFFCCCCCC)
+    .setColorForeground(0xFF000000)
+    .setColorActive(0xFFCCCCCC)
     ;
 
   cp5.addLabel("pastRangeNumberLabel")
@@ -57,18 +70,18 @@ void setupGraphPastRangeButtons(int x, int y) {
     .setText("600")
     .setColor(0)
     ;
-    
+
   cp5.addTextfield("liveGraphStock")
-    .setPosition(x + 20,y + 30)
-    .setSize(47,17)
+    .setPosition(x + 20, y + 30)
+    .setSize(47, 17)
     ;  
-    
+
   cp5.addButton("graphNewLive")
-    .setPosition(x + 70,y + 30)
-    .setSize(49,17)
+    .setPosition(x + 70, y + 30)
+    .setSize(49, 17)
     .setLabel("graph")
     ;
-    
+
   cp5.addLabel("liveGraphTickerLabel")
     .setPosition(x + 20, y + 20)
     .setText("Ticker:")
@@ -76,20 +89,29 @@ void setupGraphPastRangeButtons(int x, int y) {
     ;
 }
 
-void setupGraphModeButtons(){
-  cp5.addToggle("historyMouseTracking")
-  .setPosition(110,10)
-  .setSize(10,10)
-  .setColorBackground(0xFFDDDDDD)
-  .setValue(true)
+void setupGraphModeButtons() {
+  String[] things = {"History Graph", "Live Graph"};
+  cp5.addButtonBar("graphingMode")
+    .setPosition(10, 10)
+    .setSize(150, 20)
+    .addItems(things)
+    .onRelease(new CallbackListener() {
+    public void controlEvent(CallbackEvent ev) {
+      ButtonBar bar = (ButtonBar)ev.getController();
+      if (bar.hover() == 0) {
+        hideGraphPastRangeButtons();
+        showGraphNewHistoryButtons();
+        graphMode = 0;
+      } else if (bar.hover() == 1) {
+        showGraphPastRangeButtons();
+        hideGraphNewHistoryButtons();
+        graphMode = 2;
+      }
+    }
+  }
+  )
   ;
-  
-  cp5.addLabel("mouseTrackingToggle")
-  .setPosition(5,10)
-  .setText("Toggle Mouse Tracking:")
-  .setColor(0)
-  ;
-  
+  cp5.get(ButtonBar.class, "graphingMode").changeItem("History Graph", "selected", true);
 }
 
 void setupMostPopularBar(int x, int y) {
@@ -115,6 +137,7 @@ void setupMostPopularBar(int x, int y) {
   }
   )
   ;
+  cp5.get(ButtonBar.class, "popularStocks").changeItem("NASDAQ", "selected", true);   // separate cuz returns void
 }
 
 void hideGraphNewHistoryButtons() {
@@ -123,6 +146,8 @@ void hideGraphNewHistoryButtons() {
   cp5.getController("historyGraphStock").hide();
   cp5.getController("historyGraphYears").hide();
   cp5.getController("graphNewHistory").hide();
+  cp5.getController("historyMouseTracking").hide();
+  cp5.getController("mouseTrackingToggle").hide();
 }
 
 void showGraphNewHistoryButtons() {
@@ -131,6 +156,8 @@ void showGraphNewHistoryButtons() {
   cp5.getController("historyGraphStock").show();
   cp5.getController("historyGraphYears").show();
   cp5.getController("graphNewHistory").show();
+  cp5.getController("historyMouseTracking").show();
+  cp5.getController("mouseTrackingToggle").show();
 }
 
 void hideGraphPastRangeButtons() {
@@ -165,24 +192,24 @@ void graphNewHistory() {
   }
 }
 
-void graphNewLive(){
+void graphNewLive() {
   String input = cp5.get(Textfield.class, "liveGraphStock").getText();
-  if(input.length() > 0){
-  if(isPopular(input)){
-    graphMode = 2;
-    selectedStock = input;
-  }else if(graphMode == 2){
-    graphMode = 1;
-    livePullStock = input;
-  }else{
-    livePullStock = input;
-  }
+  if (input.length() > 0) {
+    if (isPopular(input)) {
+      graphMode = 2;
+      selectedStock = input;
+    } else if (graphMode == 2) {
+      graphMode = 1;
+      livePullStock = input;
+    } else {
+      livePullStock = input;
+    }
   }
 }
 
-private boolean isPopular(String tick){
-  for(int i = 0; i < popularTickers.length; i ++){
-   if(tick.equalsIgnoreCase(popularTickers[i])) return true;
+private boolean isPopular(String tick) {
+  for (int i = 0; i < popularTickers.length; i ++) {
+    if (tick.equalsIgnoreCase(popularTickers[i])) return true;
   }
   return false;
 }

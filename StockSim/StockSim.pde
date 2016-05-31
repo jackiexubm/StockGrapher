@@ -29,7 +29,7 @@ void setup() {
   background(256, 256, 256);
   recentQuotes = new ArrayList<Stock>();
   recentPopularStocks = new ArrayList<Map<String, Stock>>();
-  stockHistQuotes = getPastYears("TSLA", 1);
+  stockHistQuotes = getPastYears("NDAQ", 1);
   livePullStock = "NUGT";
   selectedStock = "NDAQ";
   cp5 = new ControlP5(this)
