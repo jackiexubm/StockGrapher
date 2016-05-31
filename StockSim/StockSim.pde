@@ -48,7 +48,7 @@ void setup() {
 void draw() {
   surface.setTitle(round(frameRate) + " fps");
   background(256, 256, 256);  
-  livePullPopular(popularTickers, 1000);  // should always be on
+  livePullPopular(popularTickers, 2000);  // should always be on
   livePull(livePullStock, 1000);
   if (graphMode == 0) {
     graphEntireList(stockHistQuotes, 800, 400, 100, 550, cp5.get(Toggle.class, "historyMouseTracking").getBooleanValue());
