@@ -36,9 +36,9 @@ void setup() {
     .setColorBackground(0xFF000000)   // colors are 0xFF + hex code
     .setColorForeground(0xFFDDDDDD )
     .setColorActive( 0xFFAAAAAA)
-  ;
+    ;
   graphMode = 0;
-  setupMostPopularBar(10,40);
+  setupMostPopularBar(10, 40);
   setupGraphPastRangeButtons(10, 70);
   setupGraphNewHistoryButtons(10, 70);
   hideGraphPastRangeButtons();
@@ -50,19 +50,18 @@ void draw() {
   background(256, 256, 256);  
   livePullPopular(popularTickers, 1000);  // should always be on
   livePull(livePullStock, 1000);
-  if(graphMode == 0){
+  if (graphMode == 0) {
     graphEntireList(stockHistQuotes, 800, 400, 100, 550, cp5.get(Toggle.class, "historyMouseTracking").getBooleanValue());
-  }else if(graphMode == 1){
-  graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
-  }else if(graphMode == 2){
-  graphRangePopular(recentPopularStocks, selectedStock, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
+  } else if (graphMode == 1) {
+    graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
+  } else if (graphMode == 2) {
+    graphRangePopular(recentPopularStocks, selectedStock, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
   }
-  
-  
-  
-  
-  
+
+
+
+
+
   //graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
   //graphRangePopular(recentPopularStocks, selectedStock, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
-
 }

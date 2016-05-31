@@ -100,10 +100,10 @@ void graphRange(List<Stock> data, float width, float height, float originX, floa
     // x axis title
     text("Seconds ago (s)", originX + width/2, originY + 30);
   }
-  
+
   // title
   textSize(12);
-  text(data.get(0).getName(),originX + 10, originY - height + 10);
+  text(data.get(0).getName(), originX + 10, originY - height + 10);
 }
 
 
@@ -176,10 +176,10 @@ void graphEntireListStock(List<Stock> data, float width, float height, float ori
       (float) i * xIncrement + xIncrement + originX, 
       originY - ((data.get(i + 1).getQuote().getPrice().floatValue() - yMin) * yScale));
   }
-  
+
   // title
   textSize(12);
-  text(data.get(0).getName(),originX + 10, originY - height + 10);
+  text(data.get(0).getName(), originX + 10, originY - height + 10);
 }
 
 float[] getMinMaxStock(List<Stock> data) {

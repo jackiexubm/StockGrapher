@@ -74,6 +74,7 @@ void setupGraphPastRangeButtons(int x, int y) {
   cp5.addTextfield("liveGraphStock")
     .setPosition(x + 20, y + 30)
     .setSize(47, 17)
+    .setText("NDAQ")
     ;  
 
   cp5.addButton("graphNewLive")

@@ -52,8 +52,17 @@
 #		  - JX - complete graphNewHistory Button
 # -May 27 - JM - Added exceptions for logIn and Register. Text fields work better
 #         - JM - Fixed text fields and added exceptions
-# -May28  - JX - complete many GUI things
+# -May 28 - JX - complete many GUI things
 # 		  - JX - complete pullPopular and graphPopular and button bar that changes which one is being graphed
+# -May 30 - JX - complete buttons that toggle between history graphing and live graphing
+# 		  - JX - Add toggle for mouse tracking
+# 		  - JX - fix hide and show of new graphPastRange controllers
+# 		  - JX - improved color of GUI
+# 		  - JX - add titles with stock name to live graphs
+# 		  - JX - make many improvements to graphLive with input
+# 		  - JX - add GUI and method to change live pulled stock
+# 		  - JX - applied most popular bar to work with graph history
+# 		  - JX - complete hide and show of GUI for graph past and history graph
 #
 #
 #

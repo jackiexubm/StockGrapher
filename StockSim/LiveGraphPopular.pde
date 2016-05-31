@@ -93,8 +93,8 @@ void graphRangePopular(List<Map<String, Stock>> list, String ticker, float width
     // x axis title
     text("Seconds ago (s)", originX + width/2, originY + 30);
   }
-  
-    // title
+
+  // title
   textSize(12);
-  text(data.get(0).getName(),originX + 10, originY - height + 10);
+  text(data.get(0).getName(), originX + 10, originY - height + 10);
 }
