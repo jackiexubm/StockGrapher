@@ -56,11 +56,10 @@ void draw() {
     graphRange(recentQuotes, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
   } else if (graphMode == 2) {
     graphRangePopular(recentPopularStocks, selectedStock, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());
+  } else if (graphMode == 3) {
+    graphEntireListStock(recentQuotes, 800, 400, 100, 550);
   }
-
-
-
-
+  
 
   //graphEntireList(stockHistQuotes, 800, 400, 100, 550, true);
   //graphRangePopular(recentPopularStocks, selectedStock, 800, 400, 100, 550, (int) cp5.getController("pastRangeNumber").getValue());

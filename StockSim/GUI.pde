@@ -39,7 +39,7 @@ void setupGraphNewHistoryButtons(int x, int y) {
 
   cp5.addLabel("mouseTrackingToggle")
     .setPosition(x + 75, y + 20)
-    .setText("Toggle Mouse Tracking:")
+    .setText("Toggle mouse tracking:")
     .setColor(0)
     ;
 }
@@ -88,6 +88,20 @@ void setupGraphPastRangeButtons(int x, int y) {
     .setText("Ticker:")
     .setColor(0)
     ;
+    
+    cp5.addToggle("liveGraphEntireList")
+    .setPosition(x + 220, y + 20)
+    .setSize(10, 10)
+    .setColorBackground(0xFFDDDDDD)
+    .setValue(false)
+    ;
+    
+    cp5.addLabel("toggleLabel")
+    .setPosition(x + 155, y + 20)
+    .setText("Graph all plots:")
+    .setColor(0xFF000000)
+    ;
+    
 }
 
 void setupGraphModeButtons() {
@@ -169,6 +183,8 @@ void hideGraphPastRangeButtons() {
   cp5.getController("liveGraphStock").hide();
   cp5.getController("graphNewLive").hide();
   cp5.getController("liveGraphTickerLabel").hide();
+  cp5.getController("liveGraphEntireList").hide();
+  cp5.getController("toggleLabel").hide();
 }
 
 void showGraphPastRangeButtons() {
@@ -179,6 +195,8 @@ void showGraphPastRangeButtons() {
   cp5.getController("liveGraphStock").show();
   cp5.getController("graphNewLive").show();
   cp5.getController("liveGraphTickerLabel").show();
+  cp5.getController("liveGraphEntireList").show();
+  cp5.getController("toggleLabel").show();
 }
 
 void graphNewHistory() {
