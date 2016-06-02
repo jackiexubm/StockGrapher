@@ -1,4 +1,7 @@
 import controlP5.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.*;
 
 ControlP5 cp5;
 PFont font, f, f2;
@@ -12,22 +15,37 @@ boolean logInPressed = true;
 boolean registerPressed = true;
 boolean loggedIn = false;
 
-
 User x1;
 User x2;
+
+FileWriter writer;
+BufferedWriter writer2;
 BufferedReader reader;
 String line;
+
+PrintWriter output;
+String fileName = "accounts.csv";
 
 void settings() {
   size(1200, 700);
 }
 
 void setup() {  
+  try {
+    FileWriter writer = new FileWriter(fileName, true); 
+    writer2 = new BufferedWriter(writer);
+  }
+  catch(IOException e) {
+    System.out.println("It Broke");
+    e.printStackTrace();
+  }
+
+  //output = createWriter("data/accounts2.csv"); 
+  reader = createReader(fileName); 
+
   font = createFont("arial", 32);
   f = createFont("arial", 80);
   f2 = createFont("arial", 50);
-
-  reader = createReader("accounts.csv"); 
 
   cp5 = new ControlP5(this);
   int y = 200;
@@ -88,32 +106,32 @@ void draw() {
     //System.out.println(x1.toString());
 
     if (usr.getText().length() < 1) text("Username is not long enough", 350, 350);
+    else {
 
-    signIn(usr.getText(), pass.getText());
-    logInPressed = false;
+      signIn(usr.getText(), pass.getText());
+      logInPressed = false;
+    }
   }
 
   if (registerPressed && register.isPressed() ) {
+
     //text(usr.getText(), 100, 100);
     //text(pass.getText(),150,150);
     if (usr.getText().length() < 1) text("Username is not long enough", 350, 600);
     else if (pass.getText().length() < 6) text("Password is not long enough", 350, 600);
     else {
-      x2 = new User(usr.getText(), pass.getText());
-      System.out.println(x2.toString());
+      //x2 = new User(usr.getText(), pass.getText());
+      //System.out.println(x2.toString());
+      register(usr.getText(), pass.getText());
 
       registerPressed = false;
     }
   }
 }
 
-
-void signIn(String user, String pass) {
+boolean signIn(String user, String pass) {
   try {
     line = reader.readLine();
-    String[] logArray = new String[2];
-    logArray = line.split(",");
-    if (usr.getText().equals(logArray[0])) loggedIn = true;
   } 
   catch (IOException e) {
     e.printStackTrace();
@@ -122,9 +140,47 @@ void signIn(String user, String pass) {
   if (line == null) {
     noLoop();
   } else {
-    //String[] pieces = split(line, TAB);
-    //int x = int(pieces[0]);
-    //int y = int(pieces[1]);
-    //point(x, y);
+    String[] info = split(line, ",");
+
+    String fileUser = info[0];
+    System.out.println(info[0]);
+
+    String filePass = info[1];
+    System.out.println(info[1]);
+
+
+    if ( user.equals(fileUser)) {
+      if (pass.equals(filePass)) {
+        System.out.println("LOGGED IN");
+        return true;
+      } 
+      System.out.println("ERROR: Password does not match");
+    }
+    System.out.println("ERROR: Username does not match");
   }
+  return false;
+}
+
+void register(String user, String pass) {
+  x2 = new User(user, pass);
+  System.out.println(x2.toString());
+  System.out.println("Bout to try");
+
+  try {
+    writer2.write(x2.toString());
+    System.out.println(x2.toString());
+
+    writer2.flush();
+    writer2.close();
+    System.out.println("DONE");
+  }
+  catch(IOException e) {
+    println("It Broke");
+    e.printStackTrace();
+  }
+  // output.print(x2.toString() );
+  //output.flush();
+  //output.close();
+
+  System.out.println("DONE");
 }
