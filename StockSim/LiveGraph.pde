@@ -22,6 +22,11 @@ void livePull(String ticker, int interval) {
 }
 
 void graphRange(List<Stock> data, float width, float height, float originX, float originY, int plots) {
+  //draw x & y axis
+  stroke(0);
+  line(originX, originY, originX, originY - height);
+  line(originX, originY, originX + width, originY);
+
   float xIncrement = width / plots;
   float[] dataMinMax;
   if (data.size() > plots) {
@@ -29,6 +34,14 @@ void graphRange(List<Stock> data, float width, float height, float originX, floa
   } else {
     dataMinMax = getMinMaxStock(data);
   }
+  //error handling
+  if(dataMinMax[0] == -100){
+        System.out.println("ran");
+    textSize(30);
+    text("Invalid ticker or range", originX + width/3, originY - height/2);
+    return;
+  }
+  
   float range = dataMinMax[1] - dataMinMax[0];
   float yMin;
   float yMax;
@@ -42,11 +55,6 @@ void graphRange(List<Stock> data, float width, float height, float originX, floa
   float yScale = height / (yMax - yMin);
   float yAxisIncrement = (yMax - yMin) / 6;
   int xAxisIncrement = plots / 4;
-
-  //draw x & y axis
-  stroke(0);
-  line(originX, originY, originX, originY - height);
-  line(originX, originY, originX + width, originY);
 
   // y axis scale
   for (int i = 0; i < 7; i ++) {
@@ -108,6 +116,18 @@ void graphRange(List<Stock> data, float width, float height, float originX, floa
 
 
 void graphEntireListStock(List<Stock> data, float width, float height, float originX, float originY) {
+  //draw x & y axis
+  stroke(0);
+  line(originX, originY, originX, originY - height);
+  line(originX, originY, originX + width, originY);
+
+  //error handle
+  if (data.size() == 0) {
+    textSize(30);
+    text("Invalid ticker or range", originX + width/3, originY - height/2);
+    return;
+  }
+
   float xIncrement = width / data.size();
   float[] dataMinMax = getMinMaxStock(data);
   float range = dataMinMax[1] - dataMinMax[0];
@@ -123,11 +143,6 @@ void graphEntireListStock(List<Stock> data, float width, float height, float ori
   float yScale = height / (yMax - yMin);
   float yAxisIncrement = (yMax - yMin) / 6;
   int xAxisIncrement = data.size() / 4;
-
-  //draw x & y axis
-  stroke(0);
-  line(originX, originY, originX, originY - height);
-  line(originX, originY, originX + width, originY);
 
   // y axis title
   fill(0);
@@ -184,6 +199,10 @@ void graphEntireListStock(List<Stock> data, float width, float height, float ori
 
 float[] getMinMaxStock(List<Stock> data) {
   float[] ret = new float[2];
+  ret[0] = -100;
+  if(data.get(0).getQuote().getPrice() == null){
+    return ret;
+  }
   ret[0] = data.get(0).getQuote().getPrice().floatValue();
   ret[1] = data.get(0).getQuote().getPrice().floatValue();
   for (int i = 0; i < data.size(); i ++) {

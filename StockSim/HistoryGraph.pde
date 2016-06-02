@@ -42,6 +42,7 @@ void graphEntireList(List<HistoricalQuote> data, float width, float height, floa
     text("Invalid ticker or range", originX + width/3, originY - height/2);
     return;
   }
+  
   float xIncrement = width / data.size();
   float[] dataMinMax = getMinMax(data);
   float range = dataMinMax[1] - dataMinMax[0];
