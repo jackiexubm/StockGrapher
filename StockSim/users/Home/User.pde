@@ -1,4 +1,4 @@
-class User {
+public class User{
   public String username;
   public String password;
   public Portfolio f; 
@@ -23,19 +23,13 @@ class User {
     this.username = usrname;
     this.password = passwrd;
   }
-   public User(String usrname, String passwrd, ) {
-    this.username = usrname;
-    this.password = passwrd;
-    f.setCurrentAmount();
-    f.setInitialAmount();
-  }
 
 public String toString() {
-    return (username+ ',' + password + '\n');
+    return (username+ ',' + password);
   }
 
   public String toString(Portfolio f) {
     String ret = (username+ ',' + password+ f.toString());
-    return ret + '\n';
+    return ret;
   }
 }

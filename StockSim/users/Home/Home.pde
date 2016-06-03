@@ -10,13 +10,10 @@ User x1, x2;
 boolean logInPressed = true;
 boolean registerPressed = true;
 boolean loggedIn = false;
-String [] file;
 String[] info;
+String errorLine = "";
 
 PrintWriter writer;
-BufferedReader reader;
-String line;
-PrintWriter output;
 String fileName = "accounts.txt";
 
 void settings() {
@@ -24,8 +21,6 @@ void settings() {
 }
 //-----------------------------------------------------------SETUP----------------------
 void setup() {  
-  reader = createReader(fileName); 
-
   font = createFont("arial", 32);
   f = createFont("arial", 80);
   f2 = createFont("arial", 50);
@@ -67,17 +62,24 @@ void draw() {
   text("Username:", 309, 237);
   text("Password:", 320, 313);  
 
+  text(errorLine, 292, 550);
+
   if (logInPressed &&logIn.isPressed() ) {
-    if (usr.getText().length() < 1) text("Username is not long enough", 350, 350);
-    else {
-      load(usr.getText(), pass.getText());
-      logInPressed = false;
+    if (loggedIn == false) { 
+      if (usr.getText().length() < 1) errorLine = "Username is not long enough";
+      else if (pass.getText().length() < 6) errorLine = "Password is not long enough";
+      else if (usr.getText().contains(" ")) errorLine = "Username can not have space";
+      else if (pass.getText().contains(" ")) errorLine = "Password can not have a space";
+      else {
+        load(usr.getText(), pass.getText());
+        logInPressed = false;
+      }
     }
   }
 
   if (registerPressed && register.isPressed() ) {
-    if (usr.getText().length() < 1) text("Username is not long enough", 350, 600);
-    else if (pass.getText().length() < 6) text("Password is not long enough", 350, 600);
+    if (usr.getText().length() < 1) errorLine = "Username is not long enough";
+    else if (pass.getText().length() < 6) errorLine = "Password is not long enough";
     else {
       register(usr.getText(), pass.getText());
       registerPressed = false;
@@ -86,15 +88,18 @@ void draw() {
 }
 
 boolean signIn(String user, String pass, String[] line) {
-
   if (line[0].equals(user)) {
     if (line[1].equals(pass)) {
       println("LOGGED IN");
+      errorLine = "";
+      loggedIn = true;
       return true;
     } 
-    println("Password does NOT match");
+    errorLine = "Password does NOT match";
+    //println("Password does NOT match");
   }
-  println("Username does NOT match");
+  errorLine = "Username does NOT match";
+  //println("Username does NOT match");
   return false;
 }
 
@@ -121,11 +126,11 @@ void register(String user, String pass) {
     info2[i] = info[i];
     info2[info2.length-1] = x2.toString();
   }
-  rewrite(info, info2);
+  rewrite(info2);
   System.out.println("DONE");
 }
 
-void rewrite(String[] info, String[] info2) {
+void rewrite(String[] info2) {
   writer = createWriter("data/accounts.txt");
   for (int x = 0; x<info2.length; x++) {
     writer.println(info2[x]);

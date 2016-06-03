@@ -14,7 +14,7 @@ class Stock {
   void draw() {
   }
 
-  public User(int currP, int tradeP, String name, String acro) {
+  public Stock(int currP, int tradeP, String name, String acro) {
     this.currentPrice = currP;
     this.tradePrice = tradeP;
     this.name = "";
