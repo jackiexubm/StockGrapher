@@ -12,6 +12,8 @@ void livePull(String ticker, int interval) {
       try {
         Stock stock = YahooFinance.get(ticker);
         recentQuotes.add(stock);
+        recentQuotes.add(stock);
+        recentQuotes.add(stock);
       } 
       catch (IOException e) {
         e.printStackTrace();

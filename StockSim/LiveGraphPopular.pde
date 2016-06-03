@@ -1,7 +1,10 @@
 void livePullPopular(String[] tickers, int interval) {
   if (millis() > nextPull2) {
     try {
-      recentPopularStocks.add(YahooFinance.get(tickers));
+      Map<String, Stock> temp = YahooFinance.get(tickers);
+      recentPopularStocks.add(temp);
+      recentPopularStocks.add(temp);
+      recentPopularStocks.add(temp);
     }
     catch(IOException e) {
       e.printStackTrace();
