@@ -27,6 +27,10 @@ class User {
     this.initialAmount = init;
     this.numStocks = numS;
   }
+  
+  void setCurrentAmount(int curr) {
+    this.currentAmount = curr;
+    }
 
   public String toString() {
     return ("" + initialAmount + ',' + currentAmount+ '\n');
