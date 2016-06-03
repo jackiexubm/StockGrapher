@@ -22,6 +22,7 @@ String livePullStock;
 String selectedStock;
 int graphMode; // 0 - History, 1 - nonPopular Live, 2 - popularLive
 boolean backgroundPulling;
+boolean introScreen;
 
 
 
@@ -34,6 +35,7 @@ void setup() {
   livePullStock = "NUGT";
   selectedStock = "NDAQ";
   backgroundPulling = false;
+  introScreen = true;
   cp5 = new ControlP5(this)
     .setColorBackground(0xFF000000)   // colors are 0xFF + hex code
     .setColorForeground(0xFFDDDDDD )
@@ -44,10 +46,21 @@ void setup() {
   setupGraphPastRangeButtons(10, 70);
   setupGraphNewHistoryButtons(10, 70);
   hideGraphPastRangeButtons();
+  hideGraphNewHistoryButtons();
   setupGraphModeButtons();
 }
 
 void draw() {
+  
+  if(introScreen){
+    textSize(70);
+    text("Welcome to Stock Grapher", 100,100);
+    fill(0);
+    System.out.println("a");
+    
+    return;
+  }
+  
   surface.setTitle(round(frameRate) + " fps");
   background(256, 256, 256);  
   if(backgroundPulling){

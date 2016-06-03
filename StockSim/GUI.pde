@@ -110,6 +110,7 @@ void setupGraphModeButtons() {
     .setPosition(10, 10)
     .setSize(150, 20)
     .addItems(things)
+    .hide()
     .onRelease(new CallbackListener() {
     public void controlEvent(CallbackEvent ev) {
       ButtonBar bar = (ButtonBar)ev.getController();
@@ -136,6 +137,7 @@ void setupMostPopularBar(int x, int y) {
   cp5.addButtonBar("popularStocks")
     .setPosition(x, y)
     .setSize(550, 20)
+    .hide()
     .addItems(split("NASDAQ WILSHIRE5000 S&P500 IBM GOOGLE FACEBOOK APPLE AMAZON MICROSOFT INTEL", " "))
     .onRelease(new CallbackListener() {
     public void controlEvent(CallbackEvent ev) {
@@ -200,6 +202,11 @@ void showGraphPastRangeButtons() {
   cp5.getController("liveGraphTickerLabel").show();
   cp5.getController("liveGraphEntireList").show();
   cp5.getController("toggleLabel").show();
+}
+
+void showButtonBars(){
+  cp5.getController("graphingMode").show();
+  cp5.getController("popularStocks").show();
 }
 
 void graphNewHistory() {
