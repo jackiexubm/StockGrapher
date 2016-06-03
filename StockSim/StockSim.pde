@@ -21,6 +21,7 @@ List<HistoricalQuote> stockHistQuotes;
 String livePullStock;
 String selectedStock;
 int graphMode; // 0 - History, 1 - nonPopular Live, 2 - popularLive
+boolean backgroundPulling;
 
 
 
@@ -32,6 +33,7 @@ void setup() {
   stockHistQuotes = getPastYears("NDAQ", 1);
   livePullStock = "NUGT";
   selectedStock = "NDAQ";
+  backgroundPulling = false;
   cp5 = new ControlP5(this)
     .setColorBackground(0xFF000000)   // colors are 0xFF + hex code
     .setColorForeground(0xFFDDDDDD )
@@ -48,8 +50,10 @@ void setup() {
 void draw() {
   surface.setTitle(round(frameRate) + " fps");
   background(256, 256, 256);  
-  livePullPopular(popularTickers, 3000);  // should always be on
-  livePull(livePullStock, 3000);
+  if(backgroundPulling){
+    livePullPopular(popularTickers, 3000);  // should always be on
+    livePull(livePullStock, 3000);
+  }
   if (graphMode == 0) {
     graphEntireList(stockHistQuotes, 800, 400, 100, 550, cp5.get(Toggle.class, "historyMouseTracking").getBooleanValue());
   } else if (graphMode == 1) {

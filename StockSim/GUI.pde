@@ -121,6 +121,9 @@ void setupGraphModeButtons() {
         showGraphPastRangeButtons();
         hideGraphNewHistoryButtons();
         graphMode = 2;
+        if(!backgroundPulling){
+          backgroundPulling = true;
+        }
       }
     }
   }
