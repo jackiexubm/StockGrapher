@@ -1,6 +1,7 @@
 class User {
   public String username;
   public String password;
+  public Portfolio f; 
 
   void setup() {
     this.username= "";
@@ -19,6 +20,10 @@ class User {
   }
 
 
+  public User(String usrname, String passwrd) {
+    this.username = usrname;
+    this.password = passwrd;
+  }
   public User(String usrname, String passwrd) {
     this.username = usrname;
     this.password = passwrd;

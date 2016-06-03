@@ -1,2 +1,0 @@
-test,password
-test2,password2
