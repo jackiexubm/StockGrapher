@@ -1,6 +1,7 @@
-class User {
+public class User{
   public String username;
   public String password;
+  public Portfolio f; 
 
   void setup() {
     this.username= "";
@@ -18,13 +19,17 @@ class User {
     this.password = passw;
   }
 
-
   public User(String usrname, String passwrd) {
     this.username = usrname;
     this.password = passwrd;
   }
 
-  public String toString() {
-    return (username+ ',' + password+ '\n');
+public String toString() {
+    return (username+ ',' + password);
+  }
+
+  public String toString(Portfolio f) {
+    String ret = (username+ ',' + password+ f.toString());
+    return ret;
   }
 }
