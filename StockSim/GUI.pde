@@ -74,7 +74,7 @@ void setupGraphPastRangeButtons(int x, int y) {
   cp5.addTextfield("liveGraphStock")
     .setPosition(x + 20, y + 30)
     .setSize(47, 17)
-    .setText("NDAQ")
+    .setText("^GSPC")
     ;  
 
   cp5.addButton("graphNewLive")
@@ -88,20 +88,19 @@ void setupGraphPastRangeButtons(int x, int y) {
     .setText("Ticker:")
     .setColor(0)
     ;
-    
-    cp5.addToggle("liveGraphEntireList")
+
+  cp5.addToggle("liveGraphEntireList")
     .setPosition(x + 220, y + 20)
     .setSize(10, 10)
     .setColorBackground(0xFFDDDDDD)
     .setValue(false)
     ;
-    
-    cp5.addLabel("toggleLabel")
+
+  cp5.addLabel("toggleLabel")
     .setPosition(x + 155, y + 20)
     .setText("Graph all plots:")
     .setColor(0xFF000000)
     ;
-    
 }
 
 void setupGraphModeButtons() {
@@ -122,7 +121,7 @@ void setupGraphModeButtons() {
         showGraphPastRangeButtons();
         hideGraphNewHistoryButtons();
         graphMode = 2;
-        if(!backgroundPulling){
+        if (!backgroundPulling) {
           backgroundPulling = true;
         }
       }
@@ -158,6 +157,28 @@ void setupMostPopularBar(int x, int y) {
   )
   ;
   cp5.get(ButtonBar.class, "popularStocks").changeItem("NASDAQ", "selected", true);   // separate cuz returns void
+}
+
+void setupIntroScreenButtons() {
+  cp5.addButton("pullNow")
+  .setPosition(350,300)
+  .setSize(200,80)
+  .setLabel("Start Pulling Now")
+  
+  ;
+
+  cp5.addButton("pullLater")
+  .setPosition(650,300)
+  .setSize(200,80)
+  .setLabel("Start Pulling Later")
+  
+  ;
+}
+
+void hideIntroScreen(){
+  cp5.getController("pullNow").hide();
+  cp5.getController("pullLater").hide();
+  introScreen = false;
 }
 
 void hideGraphNewHistoryButtons() {
@@ -204,7 +225,7 @@ void showGraphPastRangeButtons() {
   cp5.getController("toggleLabel").show();
 }
 
-void showButtonBars(){
+void showButtonBars() {
   cp5.getController("graphingMode").show();
   cp5.getController("popularStocks").show();
 }
@@ -234,6 +255,20 @@ void graphNewLive() {
       livePullStock = input;
     }
   }
+}
+
+void pullNow(){
+  showButtonBars();
+  hideIntroScreen();
+  showGraphNewHistoryButtons();
+  backgroundPulling = true;
+}
+
+void pullLater(){
+  showButtonBars();
+  hideIntroScreen();
+  showGraphNewHistoryButtons();
+  backgroundPulling = false;
 }
 
 private boolean isPopular(String tick) {
